@@ -1,0 +1,110 @@
+.supportRecords{
+    .order_title{
+        display: flex;
+        align-items: center;
+        margin: 0;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 68px;
+        color: #757575;
+        margin-bottom: 10px;
+        .support{
+            cursor: pointer;
+            color: #AAB2BD;
+        }
+        .line{
+            margin: 0 10px;
+            color: #AAB2BD;
+        }
+        .records{
+            
+        }
+        span.stip{
+            margin-left: 14px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 14px;
+        }
+    }
+    .list{
+        li{
+            border: 1px solid grey;
+            margin: 15px 0;
+            box-sizing: border-box;
+            h3{
+                display: flex;
+                padding: 10px 15px;
+                justify-content: space-between;
+                border-bottom: 1px solid #e0e0e0;
+                color:#757575;
+                font-weight: normal;
+                span{
+                    color:#333;
+                }
+                p.check{
+                    border:1px solid #b0b0b0;
+                    background: #fff;
+                    color: #757575;
+                    padding: 2px 20px;
+                    font-size: 10px;
+                    transition: all .4s;
+                    cursor: pointer;
+                    font-weight: normal;
+                    &:hover{
+                        background: #757575;
+                        color:#fff;
+                    }
+                }
+            }
+            .top{
+                padding: 15px 15px 0 15px;
+                display: flex;
+                justify-content: space-between;
+                color:#757575;
+                font-size: 14px;
+                span{
+                    color:#333;
+                }
+            }
+            .middle{
+                padding: 5px 15px;
+                display: flex;
+                justify-content: space-between;
+                color:#757575;
+                font-size: 14px;
+                span{
+                    color:#333;
+                }
+            }
+            .bottom{
+                padding: 2px 15px;
+                display: flex;
+                justify-content: space-between;
+                color:#757575;
+                font-size: 14px;
+                span{
+                    color:#333;
+                }
+                .ivu-rate{
+                    margin-top: -5px;
+                }
+            }
+        }
+    }
+    .pageSimple{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .page{
+        display: flex;
+        justify-content: center;
+    }
+    .ivu-page-item-active {
+        background-color: @color;
+        border-color:  @color;
+    }
+    .ivu-page-item:hover{
+        border: 1px solid @color;
+    }
+    
+}
