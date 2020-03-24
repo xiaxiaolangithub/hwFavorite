@@ -10,14 +10,12 @@
                     </div>
                     <span class="item_title">售后类型： </span>
                     <Select v-model="saleType" clearable style="width:120px" @on-change="typeChange">
-                        <Option value="">全部</Option>
                         <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </div>
                 <div class="item">
                     <span class="item_title">审核状态： </span>
                     <Select v-model="auditState" clearable style="width:120px" @on-change="stateChange">
-                        <Option value="">全部</Option>
                         <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </div>
@@ -164,7 +162,7 @@ export default{
                 {value:'3',label:'物流破损'},
             ],
             // 选择的审核状态
-            auditState:'',    
+            auditState:'1',    
             // 售后状态列表
             stateList:[
                 {value:'1',label:'待审核'},
@@ -387,31 +385,20 @@ export default{
                         ]);
                     }
                 },
+                 {
+                    title: '拒绝理由',
+                    align: 'center',
+                    key: 'jjreason',
+                    render: (h, {row}) => {
+                        return <p style="color:red;">{row.jjreason}</p>
+                    }
+                },
                 {
                     title: '操作',
                     key: 'action',
                     align: 'center',
                     width: 180,
                     render: (h, {row}) => {
-                        /* let text1 = '';
-                        let text2 = '';
-                        if(row.status === 0) {
-                            text1 = '通过';
-                            text2 = '拒绝';
-                        } else if (row.status === 1) {
-                            text1 = `撤销 (理由：${row.jjreason})`;
-                            text2 = '';
-                        } else if (row.isreturn === 1) {
-                            text1 = '需退货';
-                            text2 = '';
-                        } else if(row.isreturn === 2) {
-                            text1 = '不退货';
-                            text2 = '';
-                        } else {
-                            text1 = '需退货';
-                            text2 = '不退货';
-                        } */
-                            // this.handle(2)
                         return (
                             <div>
                                 {
@@ -425,7 +412,6 @@ export default{
                                     row.status === 1 && 
                                     <div>
                                         <span onClick={() =>this.rowClick(row, 1)} title="点击撤销该售后" class="row_btn">撤销</span>
-                                        <span>理由：{row.jjreason}</span>
                                     </div>
                                 }
                                 {
@@ -451,50 +437,6 @@ export default{
                                 }
                             </div>
                         )
-                        // return h('div', [
-                        //     h('span', {
-                        //         style: {
-                        //             cursor: text1 && text2 ? 'pointer' : 'auto'
-                        //         },
-                        //         class: 'refuse_icon',
-                        //         domProps:{
-                        //             title: text1
-                        //         },
-                        //         on: {
-                        //             click: () => {
-                        //                 this.handleId = row.id;
-                        //                 if(text1 === '通过') {
-                        //                     this.handle(2);  // 通过
-                        //                 } else if(text1 === '需退货' && text2 !== '') {
-                        //                     this.returnGoods(1);  // 需退货
-                        //                 } else if(text1 === '撤销') {
-                        //                     this.revoke(1);  // 撤销
-                        //                 }
-                        //             }
-                        //         }
-                        //     }, text1),
-                        //     h('span', {
-                        //         style: {
-                        //             cursor: 'pointer'
-                        //         },
-                        //         class: 'refuse_icon',
-                        //         domProps:{
-                        //             title: text2,
-                        //         },
-                        //         on: {
-                        //             click: () => {
-                        //                 this.handleId = row.id;
-                        //                 if(text2 === '拒绝') {
-                        //                     this.refuseValue = true;  // 拒绝
-                        //                 } else if(text2 === '不退货' && text1 !== '') {
-                        //                     this.returnGoods(2); // 不退货
-                        //                 } else if(text2 === '撤销') {
-                        //                     this.revoke();     // 撤销
-                        //                 }
-                        //             }
-                        //         }
-                        //     }, text2),
-                        // ]);
                     }
                 }
             ],
@@ -769,6 +711,7 @@ export default{
                             item.picsUrl =   `http://ximiphoto.oss-cn-hangzhou.aliyuncs.com/shouhou/${item.filename}?x-oss-process=style/yuan`
                         })
                         ele.stock = '获取'; // 最后出库数据
+                        ele.refuseMemo = '';
                     })
                     this.goodList = result.list;
                 }

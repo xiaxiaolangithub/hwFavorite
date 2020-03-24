@@ -272,3 +272,23 @@ function group(array, subGroupLength) {
   }
 
 export {group}
+
+// 判断一个视频是否可以播放
+function videoShow(url) {
+    var video = document.createElement('video');
+    let msg = '';
+    video.onload = function() {
+        alert('成功');
+    }
+    video.onerror = function() {
+        msg = 'no'
+        return msg;
+    }
+    video.src = url;
+    //不同浏览器情况不同，这里判断在该浏览器是否可以播放
+    video.oncanplaythrough = function() {
+        msg = 'yes'
+        return msg;
+    };
+}
+export {videoShow}

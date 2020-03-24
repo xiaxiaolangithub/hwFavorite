@@ -33,6 +33,10 @@ Vue.use(Vuelazyload, {                 // 图片懒加载
   loading: require('@/assets/images/default2.jpg'),
   error: require('@/assets/images/default2.jpg')
 })
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer) // 引入video视频
 
 import VueClipboard from 'vue-clipboard2' // VUE 实现复制内容到剪贴板功能
 Vue.use(VueClipboard)  // 复制插件

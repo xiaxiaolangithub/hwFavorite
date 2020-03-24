@@ -216,26 +216,33 @@
                                 <Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
                             </div>
                             <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange(checkAllGroup)">
-                                <Checkbox label="item_clsno">商品类别码</Checkbox>
-                                 <Checkbox label="img">商品主图</Checkbox>
-                                <Checkbox label="item_no">商品编码</Checkbox>
-                                <Checkbox label="item_name">商品名称</Checkbox>
-                                <Checkbox label="item_en">商品英文名</Checkbox>
+                                <Checkbox label="item_clsno">类别码</Checkbox>
+                                 <Checkbox label="img">主图</Checkbox>
+                                <Checkbox label="item_no">编码</Checkbox>
+                                <Checkbox label="item_name">名称</Checkbox>
+                                <Checkbox label="item_en">名称(EN)</Checkbox>
                                 <Checkbox label="lot_spec">箱规</Checkbox>
                                 <Checkbox label="base_price">配送价</Checkbox>
                                 <Checkbox label="sale_price">零售价</Checkbox>
                                 <Checkbox label="stock_num">库存数量</Checkbox>
-                                <Checkbox label="display_flag">是否上线（1上线）</Checkbox>
+                                <Checkbox label="display_flag">是否上线(1上)</Checkbox>
                                 <Checkbox label="status">状态</Checkbox>
                                 <Checkbox label="material">材质</Checkbox>
-                                <Checkbox label="lwh">尺寸</Checkbox>
+                                <Checkbox label="material_en">材质(EN)</Checkbox>
+                                <Checkbox label="lwh">尺寸</Checkbox> 
+                                <Checkbox label="lwh_en">尺寸(EN)</Checkbox> 
                                 <Checkbox label="weight">重量</Checkbox>
-                                <Checkbox label="weight_en">英文重量</Checkbox>
+                                <Checkbox label="weight_en">重量(EN)</Checkbox>
                                 <Checkbox label="stuffing">填充物</Checkbox>
+                                <Checkbox label="stuffing_en">填充物(EN)</Checkbox>
                                 <Checkbox label="features">产品特点</Checkbox>
+                                <Checkbox label="features_en">产品特点(EN)</Checkbox>
                                 <Checkbox label="usage">使用方法</Checkbox>
+                                <Checkbox label="usage_en">使用方法(EN)</Checkbox>
                                 <Checkbox label="notes">注意事项</Checkbox>
+                                <Checkbox label="notes_en">注意事项(EN)</Checkbox>
                                 <Checkbox label="caution">警告语</Checkbox>
+                                <Checkbox label="caution_en">警告语(EN)</Checkbox>
                                 <Checkbox label="standard">执行标准</Checkbox>
                                 <Checkbox label="expiration">保质期</Checkbox>
                                 <Checkbox label="credential">产品相关证书</Checkbox>
@@ -1432,8 +1439,6 @@ export default {
                 this.displayValue = data;
                 this.stay_online = '';
             }
-            console.log(this.displayValue, 'this.displayValue')
-            console.log(this.stay_online, 'this.stay_online')
             this.getCommodity();
         },
         /**

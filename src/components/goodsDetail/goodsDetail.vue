@@ -15,10 +15,14 @@
         </div>
         <div class="pro_detail">
             <div class="detail_inner">
-                <div class="pro_left summary" ref="box">
+                <div class="pro_left summary" ref="box" v-show="isVideo">
                     <!-- scroll 放大时页面是否可滚动  淘宝放大镜插件-->
                     <pic-zoom :url="imgSrc" :scale="3" scroll show-edit></pic-zoom>
                     <!-- <img  v-lazy="imgSrc" alt="" @error="defImg()"> -->
+                </div>
+                <!-- 视频加载失败且不是预售商品都不能显示商品视频 -->
+                <div v-show="!isVideo && advance !=='1'" class="video_left">
+                    <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"></video-player>
                 </div>
                 <div class="pro_right">
                     <h3 class="pro_name">
@@ -379,7 +383,35 @@ export default {
             likeid: "",
             // 加购的规格不是倍数
             mastSpec:this.$t('goodsDetailPage.mastSpec'),
-        };
+            // 在售商品视频是否加载成功
+            isVideo: true,
+            // 视频地址
+            videoUrl: '',
+            playerOptions : {
+                playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+                autoplay: false, //如果true,浏览器准备好时开始回放。
+                muted: false, // 默认情况下将会消除任何音频。
+                loop: false, // 导致视频一结束就重新开始。
+                preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+                language: 'zh-CN',
+                aspectRatio: '4:3', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+                fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+                sources: [{
+                    type: "",
+                    src: ''//url地址   
+                    // src: "" //url地址
+                }],
+                poster: '', //你的封面地址
+                // width: document.documentElement.clientWidth,
+                notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+                controlBar: {
+                    timeDivider: true,
+                    durationDisplay: true,
+                    remainingTimeDisplay: false,
+                    fullscreenToggle: true  //全屏按钮
+                }
+            }
+        }
     },
 
     created() {
@@ -534,6 +566,7 @@ export default {
          */
         transAdvance(result) {
             let info = result.data;
+            this.isVideo = true;                            // 不显示商品视频   
             this.item_name = info.item_name;                // 商品名
             this.base_price = info.base_price;              // 进货价
             this.sale_price = info.sale_price;              // 售价
@@ -639,6 +672,7 @@ export default {
             this.hs_code = info.hs_code; // 海关编码
             this.weight = info.weight; // 重量
             this.lwh = info.lwh; //尺寸：
+            this.advance = '0'
             info.credential_new.forEach(ele => {
                 let form = ele.form;
                 switch (form) {
@@ -705,7 +739,34 @@ export default {
                 // this.imgSrc = "http://dh.xmcpcn.com/Public/images/none.jpg";
                 this.imgSrc = 'https://uh.edu/pharmacy/_images/directory-staff/no-image-available.jpg'
             };
+            this.playerOptions.poster = info.img;
+            this.videoUrl = `https://ximiphoto.oss-cn-hangzhou.aliyuncs.com/video/${info.item_no}.mp4`;
             this.DetailImgUrl = `http://hwimg.xmvogue.com/detail/${info.item_no}-.jpg?x-oss-process=style/800`; // 商品详情图片
+            // 判断视频是否加载成功
+            this.isVideoShow()
+        },
+        /**
+         * 判断在售商品视频是否加载成功
+         * @param videoUrl {String} 商品条码拼接成的视频地址
+         * @param infoImg {String} 商品条码拼接成的主图地址
+         */
+        isVideoShow() {
+            let that = this;
+            var video = document.createElement('video');
+            video.onload = function() {
+            }
+            video.onerror = function() {
+                that.isVideo = true;
+                that.playerOptions.poster =  '';
+                that.playerOptions['sources'][0]['src'] = '';
+            }
+            video.src = that.videoUrl;
+            //不同浏览器情况不同，这里判断在该浏览器是否可以播放
+            video.oncanplaythrough = function() {
+                that.isVideo = false;
+                that.playerOptions.poster = that.imgSrc;
+                that.playerOptions['sources'][0]['src'] = that.videoUrl;
+            };
         },
         /**
          * 商品同款数据处理
