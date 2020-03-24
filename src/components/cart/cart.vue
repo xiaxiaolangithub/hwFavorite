@@ -1199,6 +1199,7 @@ export default {
         * 删除购物车商品数据
         */
         deleteCart() {
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: `/Home/Cart/delCart`,
@@ -1207,30 +1208,31 @@ export default {
                     sn: this.delId
                 },
                 success: res => {
-                let result = JSON.parse(res).result;
-                if (result === "ok") {
-                    this.$Message.success({
-                        content: this.delItemSuccess,
-                        duration: 3
-                    });
-                    // item.cnum = 0;
-                    this.getCartInfo({
-                        vm: this
-                    });
-                    this.getDataCard({
-                        vm: this,
-                        inland: this.inlandValue,
-                        page: this.currentPage,
-                        keyword: this.keyword,
-                        cls: this.selectValue[this.selectValue.length - 1]
-                    });
-                    // this.getTypeData();
-                } else {
-                    this.$Message.error({
-                        content: this.delItemError,
-                        duration: 3
-                    });
-                }
+                    NProgress.done();
+                    let result = JSON.parse(res).result;
+                    if (result === "ok") {
+                        this.$Message.success({
+                            content: this.delItemSuccess,
+                            duration: 3
+                        });
+                        // item.cnum = 0;
+                        this.getCartInfo({
+                            vm: this
+                        });
+                        this.getDataCard({
+                            vm: this,
+                            inland: this.inlandValue,
+                            page: this.currentPage,
+                            keyword: this.keyword,
+                            cls: this.selectValue[this.selectValue.length - 1]
+                        });
+                        // this.getTypeData();
+                    } else {
+                        this.$Message.error({
+                            content: this.delItemError,
+                            duration: 3
+                        });
+                    }
                 }
             });
         },
@@ -1709,6 +1711,7 @@ export default {
                 })
                 return false;
             }
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: "/Home/Cart/addCart",
@@ -1720,6 +1723,7 @@ export default {
                     max_buy: 40 //最大数量加购物
                 },
                 success: res => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch (msg) {

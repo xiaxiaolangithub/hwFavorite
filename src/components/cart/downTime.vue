@@ -13,6 +13,8 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
+import NProgress from "nprogress"; // 引入进度条
+import "nprogress/nprogress.css"; // 引入进度条
 export default {
   name: 'downTime',
 
@@ -97,6 +99,7 @@ export default {
              * 删除单个购物车数据
              */
             deleteCart(item_no) {
+                NProgress.start();
                 this.$resetAjax({
                     type: 'POST',
                     url: `/Home/Cart/delCart`,
@@ -105,6 +108,7 @@ export default {
                         sn: item_no
                     },
                     success: (res) => {
+                        NProgress.done();
                         let result = JSON.parse(res).result;
                         if(result === 'ok') {
                             this.$Message.success({

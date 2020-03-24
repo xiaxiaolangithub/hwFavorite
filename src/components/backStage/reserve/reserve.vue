@@ -279,7 +279,7 @@ export default {
             etime: '',
             options: {
                 disabledDate (date) {
-                    return date && date.valueOf() > Date.now();
+                    return date && date.valueOf() < Date.now();
                 }
             },
             // 商品状态

@@ -57,7 +57,7 @@
                                 <!-- 折扣商品倒计时时间 -->
                                 <downTime v-show="item.etime !== undefined && item.etime !== '0000-00-00 00:00:00' && typeValue === 'A'" :endTime="new Date(item.etime).getTime()" class="discount_time" :title="i18n.downTimeTips" :itemTime="item.etime" :startTime="new Date(item.time).getTime()" :endMsg="''"/>
                                 <!-- 预定商品已拍数量进度条百分比 -->
-                                <Tooltip :content="item.progressTip" v-if="typeValue === 'J'"  max-width="200" class="new_Progress" placement="top-start" theme="light" style="width: 70%">
+                                <Tooltip :content="item.progressTip" v-if="typeValue === 'J'"  max-width="200" class="new_Progress" placement="top-start" theme="light" style="width: 100%">
                                     <Progress :percent="item.percent" text-inside  :stroke-color="['#f5582d', '#ffa40d']" status="wrong" :stroke-width="10"/>
                                 </Tooltip>
                                 <!-- 预定商品截止时间倒计时时间  v-if="item.isDead"-->
@@ -628,6 +628,7 @@ export default {
          * 清除购物车里的该商品
          */
         delCart(item) {
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: `/Home/Cart/delCart`,
@@ -636,6 +637,7 @@ export default {
                     sn: item.item_no
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res).result;
                     if(result === 'ok') {
                         this.$Message.success({
@@ -837,6 +839,7 @@ export default {
                 })
                 return false;
             }
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Cart/addCart',
@@ -848,6 +851,7 @@ export default {
                     max_buy: 40, //最大数量加购物
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch(msg) {

@@ -35,6 +35,11 @@
                     <AnchorLink href="#recommend" :title="i18n.recommendlink" />
                     <AnchorLink href="#guess" :title="i18n.guesslink"></AnchorLink>
                 </Anchor>
+                <div class="adver" >
+                    <div class="adver_inner">
+                        <img src="@/assets/images/adver.jpg" alt="" @click="$router.push({path: '/searchKey', query: {keyword: i18n.prevention, select: 'K'}})">
+                    </div>
+                </div>
                 <!-- 预售商品 -->
                 <div class="host" id="advance" v-if="advaceData.length!==0">
                     <div class="host_inner">
@@ -46,7 +51,7 @@
                                     <div class="prod_top"  @click="$router.push({path: '/goodsDetail',query: {item_no:item.id,advance: 1}})">
                                         <img v-lazy="item.imgUrl" alt="" :title="i18n.lookDetail">
                                         <!-- 预定商品已拍数量进度条百分比 -->
-                                        <Tooltip :content="item.progressTip"  max-width="200" class="new_time" placement="top-start" theme="light" style="width: 70%">
+                                        <Tooltip :content="item.progressTip"  max-width="200" class="new_time" placement="top-start" theme="light" style="width: 100%">
                                             <Progress :percent="item.percent" text-inside  :stroke-color="['#f5582d', '#ffa40d']" status="wrong" :stroke-width="10"/>
                                         </Tooltip>
                                         <!-- 预定商品截止时间倒计时时间 -->
@@ -845,6 +850,7 @@ export default {
          * 清除购物车里的该商品
          */
         delCart(item) {
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: `/Home/Cart/delCart`,
@@ -853,6 +859,7 @@ export default {
                     sn: item.item_no
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res).result;
                     if(result === 'ok') {
                         this.$Message.success({
@@ -889,6 +896,7 @@ export default {
                 })
                 return false;
             }
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Cart/addCart',
@@ -900,6 +908,7 @@ export default {
                     max_buy: 40, //最大数量加购物
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch(msg) {
@@ -921,7 +930,7 @@ export default {
                                         break;
                                 }
                             } else {
-                                this.$Message.error({
+                                this.$Message.success({
                                     content: this.addSuccTip,
                                     duration: 3
                                 });

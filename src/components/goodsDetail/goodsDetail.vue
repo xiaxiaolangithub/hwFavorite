@@ -816,6 +816,7 @@ export default {
          * 相关产品里删除购物车里的商品
          */
         delCartItem(item) {
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: `/Home/Cart/delCart`,
@@ -824,6 +825,7 @@ export default {
                     sn: item.item_no
                 },
                 success: res => {
+                    NProgress.done();
                     let result = JSON.parse(res).result;
                     if (result === "ok") {
                         this.$Message.success({
@@ -853,6 +855,7 @@ export default {
          * 商品详情清除购物车里的该商品
          */
         delCart(item_no, carNum) {
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: `/Home/Cart/delCart`,
@@ -861,6 +864,7 @@ export default {
                     sn: item_no
                 },
                 success: res => {
+                    NProgress.done();
                 let result = JSON.parse(res).result;
                 if (result === "ok") {
                     this.$Message.success({
@@ -984,6 +988,7 @@ export default {
                 })
                 return false;
             }
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: "/Home/Cart/addCart",
@@ -995,6 +1000,7 @@ export default {
                     max_buy: 40 //最大数量加购物
                 },
                 success: res => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch (msg) {
@@ -1055,6 +1061,7 @@ export default {
          * 商品详情加入购物车
          */
         addShop(item_no, carNum) {
+            NProgress.start();
             this.$resetAjax({
                 type: "POST",
                 url: "/Home/Cart/addCart",
@@ -1066,6 +1073,7 @@ export default {
                     max_buy: 40 //最大数量加购物
                 },
                 success: res => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch (msg) {

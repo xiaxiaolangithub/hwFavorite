@@ -281,6 +281,7 @@ export default {
          * 清除购物车里的该商品
          */
         delCart(item) {
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: `/Home/Cart/delCart`,
@@ -289,6 +290,7 @@ export default {
                     sn: item.item_no
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res).result;
                     if(result === 'ok') {
                         this.$Message.success({
@@ -325,6 +327,7 @@ export default {
                 })
                 return false;
             }
+            NProgress.start();
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Cart/addCart',
@@ -336,6 +339,7 @@ export default {
                     max_buy: 40, //最大数量加购物
                 },
                 success: (res) => {
+                    NProgress.done();
                     let result = JSON.parse(res);
                     let msg = result.msg;
                     switch(msg) {
