@@ -11,7 +11,7 @@
                 <Row :gutter="32">
                     <i-Col span="24">
                         <FormItem :label="i18n.adverType" prop="type" label-position="top">
-                            <Select v-model="formData.type">
+                            <Select v-model="formData.type" @on-change="changeType">
                                 <Option v-for="item in typeList" :value="item.id" :key="item.id">{{ item.label }}</Option>
                             </Select>
                         </FormItem>
@@ -23,7 +23,7 @@
                     </i-Col>
                 </Row>
                 <Row :gutter="32">
-                    <i-Col span="24">
+                    <i-Col span="24" v-show="!isVideo">
                         <FormItem :label="i18n.adverApp" prop="app" label-position="top">
                             <Input v-model="formData.app" />
                         </FormItem>
@@ -38,10 +38,10 @@
                             <Input v-model="formData.link" :placeholder="i18n.linkNotes" disabled />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <!-- 上传照片 -->
+                    <i-Col span="24" v-show="!isVideo">
                         <div class="style">
                             <p class="label_title">{{i18n.uploadTitle}}</p>
-                            <!-- 上传照片 -->
                             <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
                                 <template v-if="item.status === 'finished'">
                                     <img :src="item.url" style="width:80px;" />
@@ -64,6 +64,13 @@
                             </Modal>
                         </div>
                     </i-Col>
+                    <!-- 上传视频 -->
+                    <i-Col span="24" v-show="isVideo">
+                        <p style="margin:25px 0 10px;">上传视频 (大小不能超过10M)</p>   
+                        <Upload action="http://order.xmvogue.com/word/public/index.php?s=admin/Guanggao/uppic" :before-upload="handleBeforeUpload" :show-upload-list="false" :max-size="10240" :format="['AVI','mov','rmvb','rm','FLV','mp4','3GP']" :on-success="videoSuccess" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError">
+                            <Button icon="ios-cloud-upload-outline">上传</Button>
+                        </Upload>
+                    </i-Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -73,11 +80,6 @@
         </Drawer>
     </div>
 </template>
-
- 
-
-
-
 <script>
 import NProgress from "nprogress"; // 引入进度条
 import "nprogress/nprogress.css"; // 引入进度条
@@ -96,6 +98,10 @@ export default {
                 {
                     id: 6,
                     label:'首页banner右边广告图'
+                },
+                {
+                    id: 7,
+                    label:'首页视频'
                 },
             ],
             // 后台广告列表
@@ -120,7 +126,7 @@ export default {
             // 新增成功
             addItemSuccess: this.$t("advertisementPage.addItemSuccess"),
             formData: {
-                type: "", // 类别
+                type:7, // 类别
                 title: "", // 标题
                 link: "", // 链接
                 app: "", // app
@@ -174,41 +180,24 @@ export default {
                     key: "title"
                 },
                 {
-                    title: '图片',
+                    title: '图片/视频',
                     align: "center",
                     key: "imgUrl",
-                    // 单元格插入图片
-                    render: (h, { row }) => {
-                        return h("img", {
-                        style: {
-                            //设置样式
-                            height: row.imgUrl ? "60px" : "",
-                            "border-radius": "5%",
-                            border: 0,
-                            cursor: "pointer",
-                            padding: "5px 0"
-                        },
-                        attrs: {
-                            //设置属性
-                            src: row.imgUrl ? row.imgUrl : ""
-                        },
-                        domProps: {
-                            title: row.imgUrl ? this.lookImg : ""
-                        },
-                        on: {
-                            click: () => {
-                            window.open(row.imgUrl);
-                            }
-                        }
-                        });
-                    }
+                    render:(h, {row}) => {
+                        return (
+                            <div>
+                                {row.position === "7" && <video src={row.link} controls="controls" style="height: 100px;margin-top: 5px;"></video>}
+                                {row.position !== "7" && <img src={row.link} style="height: 100px;margin-top: 5px;" />}
+                            </div>
+                        )
+                    },
                 },
                 {
                     title: this.$t("advertisementPage.adverLink"),
                     align: "center",
                     key: "link",
                     render: (h, { row }) => {
-                        return (<a onClick={() => this.openLink(row.link)} title="点击查看图片">{row.link}</a>);
+                        return (<a onClick={() => this.openLink(row.link)} title={row.position === '7' ? "点击查看视频" : "点击查看图片"}>{row.link}</a>);
                     } 
                 },
                 {
@@ -235,24 +224,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.value3 = true;
-                                    this.isAdd = 2;
-                                    this.formData = {
-                                        type: Number(row.position),
-                                        title: row.title,
-                                        link: row.link,
-                                        app: row.app_act,
-                                        pic: row.pic,
-                                        sort: row.sort
-                                    };
-                                    this.value3 = true;
-                                    this.editId = row.id;
-                                    this.titleName = this.edittitle;
-                                    this.uploadList = [{
-                                        name: row.pic,
-                                        url: row.imgUrl,
-                                        status: "finished"
-                                    }];
+                                    this.rowDetail(row)
                                 }
                             }
                         }),
@@ -313,7 +285,6 @@ export default {
                 //     { required: true, message: this.$t('advertisementPage.picTips'), trigger: 'blur' }
                 // ],
                 type: [{required: true,message: this.$t("advertisementPage.typeTips"),trigger: "blur",pattern: /.+/  }],
-                app: [{required: true,message: this.$t("advertisementPage.appTips"),trigger: "blur",pattern: /.+/}],
                 link: {required: true,message: this.$t("advertisementPage.linkTips"),trigger: "change",pattern: /.+/}
             },
             // 是新增还是编辑
@@ -328,7 +299,9 @@ export default {
             visible: false,
             uploadData: {},
             defaultList: [],
-            action: `http://order.xmvogue.com/word/public/index.php?s=admin/Guanggao/uppic`
+            action: `http://order.xmvogue.com/word/public/index.php?s=admin/Guanggao/uppic`,
+            // 是否是上传视频
+            isVideo: false,
         };
     },
     mounted() {
@@ -362,13 +335,35 @@ export default {
     },
     methods: {
         /**
+         * 上传视频成功
+         */
+        videoSuccess(response, file, fileList) {
+            this.$Message.success({
+                content: '上传视频成功',
+                duration: 3
+            })
+            this.formData.pic = response.name;
+            this.formData.link = response.path;
+        },
+        /**
+         * 通过选择上传文件类型来判断是上传图片还是视频
+         */
+        changeType() {
+            if(this.formData.type === 7) {
+                this.isVideo = true;
+            } else {
+                this.isVideo = false;
+            }
+        },
+        /**
          * 新增广告数据准备
          */
         newAdd() {
             this.isAdd = 1;
+            this.isVideo = true;
             this.uploadList = [];
             this.formData = {
-                type: "",
+                type: 7,
                 title: "",
                 link: "",
                 app: ""
@@ -403,14 +398,18 @@ export default {
             this.uploadList = this.$refs.upload.fileList;
             this.formData.link = res.path;
             this.formData.pic = res.name;
+            this.$Message.success({
+                content: '上传图片成功',
+                duration: 3
+            })
         },
         /**
          * 对上传的图片进行格式判断
          */
         handleFormatError(file) {
             this.$Notice.warning({
-                title: "图片格式不正确",
-                desc: "上传图片格式不正确，请选择JPG或PNG."
+                title: this.formData.type === 7 ? "视频格式不正确" : "图片格式不正确",
+                desc: this.formData.type === 7 ? '上传视频格式不正确，请选择AVI,mov,rmvb,rm,FLV,mp4,3GP其中一种格式' : "上传图片格式不正确，请选择JPG或PNG."
             });
         },
         /**
@@ -418,14 +417,15 @@ export default {
          */
         handleMaxSize(file) {
             this.$Message.error({
-                content: "上传的图片超出文件大小限制",
-                duration: 2
+                content: this.formData.type === 7 ? "上传的视频超出文件大小限制" : "上传的图片超出文件大小限制",
+                duration: 3
             });
         },
         /**
          * 对上传的图片进行数量限制
          */
         handleBeforeUpload() {
+            NProgress.start();
             // this.uploadData = {
             //     hdid: this.$root.userData.hdid,
             //     // item_no: this.goodsCode
@@ -443,6 +443,7 @@ export default {
                 content: this.imgNotice,
                 duration: 2
                 });
+                 NProgress.done();
             }
             return check;
         },
@@ -458,6 +459,29 @@ export default {
             // })
         },
         /**
+         * 广告详情
+         */
+        rowDetail(row) {
+            this.isAdd = 2;
+            this.formData = {
+                type: Number(row.position),
+                title: row.title,
+                link: row.link,
+                app: row.app_act,
+                pic: row.pic,
+                sort: row.sort
+            };
+            this.changeType()
+            this.value3 = true;
+            this.editId = row.id;
+            this.titleName = this.edittitle;
+            this.uploadList = [{
+                name: row.pic,
+                url: row.imgUrl,
+                status: "finished"
+            }];
+        },
+        /**
          * 得到广告数据
          */
         getAdverList() {
@@ -470,10 +494,12 @@ export default {
                     let result = JSON.parse(res);
                     result.forEach(ele => {
                         ele.imgUrl = `http://img.xmvogue.com/ggao/${ele.pic}?x-oss-process=style/yuan`;
-                        console.log(ele.position)
                         this.typeList.forEach(item => {
                             if((Number(ele.position) === item.id)) {
                                 ele.positionName = item.label;
+                                if(ele.position === '7') {
+                                    ele.imgUrl = ele.link;
+                                }
                             }
                         })
                     });
@@ -558,6 +584,7 @@ export default {
                         content: this.editItemSuccess,
                         duration: 3
                     });
+                    this.changeType();
                     this.formData = {
                         type: "",
                         title: "",

@@ -250,7 +250,8 @@ module.exports = {
         commentTitle: '浏览记录',
         mastSpec: '商品数量必须是规格的倍数！',
         preColsed: '预售结束',
-        downTimeTips: '截止日期'
+        downTimeTips: '截止日期',
+        prevention: '防疫用品',
     },
     // 商品列表页
     typeListPage: {
@@ -421,7 +422,7 @@ module.exports = {
         addCart: '马上抢',
         addSuccTip: '棒棒哒，添加购物车成功 ！',
         adderrTip: '很抱歉，库存不够，商品加入购物车失败 ！',
-        describe: '描述',
+        describe: '商品详情',
         information: '其他资讯',
         related: '相关产品',
         collectSuccess: '棒棒哒，收藏成功！',
@@ -1216,7 +1217,7 @@ module.exports = {
     advertisementPage: {
         adverType: '类别',
         adverTitle: '标题',
-        adverImg: '图片名称',
+        adverImg: '名称',
         adverLink: '链接',
         adverApp: 'APP',
         operation: '操作',
@@ -1248,15 +1249,15 @@ module.exports = {
         linkTips: '链接选择不能为空',
         appTips: 'app选择不能为空',
         typeTips: '类别选择不能为空',
-        picTips: '图片名称不能为空',
+        picTips: '名称不能为空',
         uploadTitle: '上传 1 张 图片（不超过3MB，支持 jpg、png 格式）',
         delItemSuccess: `删除成功 ！`,
         delItemError: `抱歉，删除失败 ！`,
         editItemSuccess: `修改成功!`,
         addItemSuccess: `成功添加! `,
         imgNotice: '只能上传一张图片',
-        linkNotes: '请先上传图片，自动获取链接',
-        picNotes: '请先上传图片，自动获取图片名称',
+        linkNotes: '请先上传，自动获取链接',
+        picNotes: '请先上传，自动获取图片/视频名称',
     },
     
 }

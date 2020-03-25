@@ -1,15 +1,15 @@
 <template>
     <div id="enterPage">
         <!-- 引入动画组件 等页面数据加载完了再出现动画 -->
-        <xmAnimation v-if="isLoadAllData"> 
-            <template slot="animation">
+       <!--  <xmAnimation v-if="isLoadAllData"> 
+            <template slot="animation"> -->
             <!--  slot="animation" -->
                 <!-- banner 动画必备样式，不可更改ani-session -->
                 <div class="banner" >
                     <div class="banner_inner">
-                        <div class="swiper_conver animated fadeInLeft">
+                        <!--  animated fadeInLeft -->
+                        <div class="swiper_conver">
                             <swiper :options="swiperOption" ref="mySwiper" v-if="isSwiperReaded"  @mouseenter="swipermySwiperEnter" @mouseleave="swipermySwiperLeave">
-                                <!-- slides -->
                                 <swiper-slide  v-for="(item,index) in bannerData" :key="index">
                                     <div class="banner_background" :style="{background: `url(${item.bannerImg})`}"></div>
                                 </swiper-slide>
@@ -20,19 +20,24 @@
                             </swiper>
                         </div>
                         <!-- 广告模块 -->
-                        <ul class="promotion animated fadeInUp">
+                        <!--  animated fadeInRight -->
+                        <ul class="promotion">
                             <li v-for="(item,index) in advertising " :key="index">
                                 <img v-lazy="item.imgUrl" alt="" @click="$router.push({path: '/searchKey', query: {keyword: i18n.NewArrivals, select: 'A'}})">
+                            </li>
+                            <li style="width:100%;position:relative;padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
+                                <video :src="videoSrc" controls="controls" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%"></video>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <!-- 锚点 --> 
                 <Anchor show-ink class="anchor_contanier">
-                    <AnchorLink href="#advance" :title="i18n.advance" v-if="advaceData.length!==0"/>
-                    <AnchorLink href="#host" :title="i18n.hostlink" />
+                    <AnchorLink href="#prevention" :title="i18n.prevention" v-if="epidemicData.length!==0"/>
                     <AnchorLink href="#latest" :title="i18n.latestlink"></AnchorLink>
+                    <AnchorLink href="#host" :title="i18n.hostlink" />
                     <AnchorLink href="#recommend" :title="i18n.recommendlink" />
+                    <AnchorLink href="#advance" :title="i18n.advance" v-if="advaceData.length!==0"/>
                     <AnchorLink href="#guess" :title="i18n.guesslink"></AnchorLink>
                 </Anchor>
                 <div class="adver" >
@@ -40,41 +45,102 @@
                         <img src="@/assets/images/adver.jpg" alt="" @click="$router.push({path: '/searchKey', query: {keyword: i18n.prevention, select: 'K'}})">
                     </div>
                 </div>
-                <!-- 预售商品 -->
-                <div class="host" id="advance" v-if="advaceData.length!==0">
+                <!-- 防疫用品  动画必备样式，不可更改ani-session-->
+                <div class="host" id="prevention" v-if="epidemicData.length > 0" >
                     <div class="host_inner">
-                        <h3 class="host_title"><span>{{i18n.advance}}</span> </h3>
-                        <p class="see_more" :title="i18n.lookMoreTips" @click="lookMoreGoods('advance')">{{i18n.lookMore}}</p>
+                        <h3 class="host_title"><span>{{i18n.prevention}}</span> </h3>
+                        <p class="see_more" :title="i18n.lookMoreTips" @click="$router.push({path: '/searchKey', query: {keyword: i18n.prevention, select: 'K'}})">{{i18n.lookMore}}</p>
                         <ul>
-                            <li v-for="(item,index) in advaceData" :key="index">
+                            <li v-for="(item,index) in epidemicData" :key="index">
                                 <div style="margin: 0px 0px 36px;box-shadow: 2px 2px 8px rgba(0,0,0,.2);">
-                                    <div class="prod_top"  @click="$router.push({path: '/goodsDetail',query: {item_no:item.id,advance: 1}})">
+                                    <div class="prod_top"  @click="goGoodsDetail(item.item_no)">
                                         <img v-lazy="item.imgUrl" alt="" :title="i18n.lookDetail">
-                                        <!-- 预定商品已拍数量进度条百分比 -->
-                                        <Tooltip :content="item.progressTip"  max-width="200" class="new_time" placement="top-start" theme="light" style="width: 100%">
-                                            <Progress :percent="item.percent" text-inside  :stroke-color="['#f5582d', '#ffa40d']" status="wrong" :stroke-width="10"/>
-                                        </Tooltip>
-                                        <!-- 预定商品截止时间倒计时时间 -->
-                                        <Tag type="dot" class="down_time" v-if="item.isDead">
-                                            <downTime v-show="item.deadline !== undefined && item.deadline !== '0000-00-00 00:00:00'" class="down_detail" :endTime="new Date(item.deadline).getTime()" :title="i18n.downTimeTips" :itemTime="item.deadline" :startTime="new Date(item.time).getTime()" :endMsg="''"/>
-                                        </Tag>
                                     </div>
                                     <div class="prod_info">
-                                        <h3 class="prod_name" @click="$router.push({path: '/goodsDetail',query: {item_no:item.id,advance: 1}})" :title="i18n.lookDetail">{{item.item_name}}</h3>
+                                        <div class="prod_title">
+                                            <h3>
+                                                {{item.item_no}}
+                                                <span style="width: 24px;height:20px;display:inline-block;">
+                                                    <Icon type="md-copy" size="20" class="copy_icon" :title="i18n.copyContent" v-clipboard:copy="item.item_no" v-clipboard:success="onCopy" v-clipboard:error="onError" />
+                                                </span>
+                                            </h3>
+                                            <p class="isLike" @click="collectGoods(item)">
+                                                <Icon type="ios-heart" size="30" color="red" v-if="item.like === 1" />
+                                                <Icon type="ios-heart" size="30" color="rgb(83, 210, 232)" v-else />
+                                            </p>
+                                        </div>
+                                        <h3 class="prod_name" @click="goGoodsDetail(item.item_no)" :title="i18n.lookDetail">{{item.item_name}}</h3>
                                         <div class="prod_price">
                                             <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
-                                            <p class="export">{{i18n.export}}<span>￥{{item.sale_price }}</span></p>
+                                            <p class="export">{{i18n.export}}<span>￥{{item.sale_price}}</span></p>
                                         </div>
                                     </div>
-                                    <!-- 超过预售截止时间，没有预定功能 -->
-                                    <div class="prod_handle" v-if="item.isDead">
+                                    <div class="prod_handle">
                                         <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)"></addCartPrice>
-                                        <a class="add_handle" >
-                                            <span @click="orderGoods(item)" class="add_shop">{{i18n.addOrder}}</span>
-                                            <span :title="item.cnumTitle" class="cnum_tips" :style="item.goods_order === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.goods_order}} ]</span>
+                                        <a class="add_handle">
+                                            <span @click="addShop(item)" class="add_shop">{{i18n.addCart}} </span>
+                                            <span :title="i18n.cnumTips" class="cnum_tips" :style="item.cnum === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.cnum}} ]</span>
+                                            <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
+                                            <!-- <Poptip
+                                                confirm
+                                                :title="i18n.delTips"
+                                                @on-ok="delCart(item)"
+                                                @on-cancel="''">
+                                                <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
+                                            </Poptip> -->
                                         </a>
                                     </div>
-                                    <p class="prod_handle"  v-else style="font-size:16px;color:#d92524;">{{i18n.preColsed}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                  <!-- 最新产品 -->
+                <div class="host" id="latest">
+                    <div class="host_inner">
+                        <h3 class="host_title"><span>{{i18n.latest}}</span></h3>
+                        <p class="see_more" :title="i18n.lookMoreTips" @click="$router.push({path: '/searchKey', query: {keyword: i18n.NewArrivals, select: 'A'}})">{{i18n.lookMore}}</p>
+                        <ul>
+                            <li v-for="(item,index) in latestList" :key="index">
+                                <div style="margin: 0px 0px 36px;box-shadow: 2px 2px 8px rgba(0,0,0,.2);">
+                                    <div class="prod_top"  @click="goGoodsDetail(item.item_no)">
+                                        <img v-lazy="item.imgUrl" alt="" :title="i18n.lookDetail">
+                                    </div>
+                                    <div class="prod_info">
+                                        <div class="prod_title">
+                                            <h3>
+                                                {{item.item_no}}
+                                                <span style="width: 24px;height:20px;display:inline-block;">
+                                                    <Icon type="md-copy" size="20" class="copy_icon" :title="i18n.copyContent" v-clipboard:copy="item.item_no" v-clipboard:success="onCopy" v-clipboard:error="onError" />
+                                                </span>
+                                            </h3>
+                                            <p class="isLike" @click="collectGoods(item)">
+                                                <Icon type="ios-heart" size="30" color="red" v-if="item.like === 1" />
+                                                <Icon type="ios-heart" size="30" color="rgb(83, 210, 232)" v-else />
+                                            </p>
+                                        </div>
+                                        <h3 class="prod_name" @click="goGoodsDetail(item.item_no)" :title="i18n.lookDetail">{{item.item_name}}</h3>
+                                        <div class="prod_price">
+                                            <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
+                                            <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="prod_handle">
+                                        <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)"></addCartPrice>
+                                        <a class="add_handle">
+                                            <span @click="addShop(item)" class="add_shop">{{i18n.addCart}} </span>
+                                            <!-- <span :title="i18n.cnumTips" class="cnum_tips">[ {{item.cnum}} ]</span> -->
+                                            <span :title="i18n.cnumTips" class="cnum_tips" :style="item.cnum === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.cnum}} ]</span>
+                                            <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
+                                            <!-- <Poptip
+                                                confirm
+                                                :title="i18n.delTips"
+                                                @on-ok="delCart(item)"
+                                                @on-cancel="''">
+                                                <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash"/>
+                                            </Poptip> -->
+                                        </a>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -122,57 +188,6 @@
                                                 @on-ok="delCart(item)"
                                                 @on-cancel="''">
                                                 <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
-                                            </Poptip> -->
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                 <!-- 最新产品 -->
-                <div class="host" id="latest">
-                    <div class="host_inner">
-                        <h3 class="host_title"><span>{{i18n.latest}}</span></h3>
-                        <p class="see_more" :title="i18n.lookMoreTips" @click="$router.push({path: '/searchKey', query: {keyword: i18n.NewArrivals, select: 'A'}})">{{i18n.lookMore}}</p>
-                        <ul>
-                            <li v-for="(item,index) in latestList" :key="index">
-                                <div style="margin: 0px 0px 36px;box-shadow: 2px 2px 8px rgba(0,0,0,.2);">
-                                    <div class="prod_top"  @click="goGoodsDetail(item.item_no)">
-                                        <img v-lazy="item.imgUrl" alt="" :title="i18n.lookDetail">
-                                    </div>
-                                    <div class="prod_info">
-                                        <div class="prod_title">
-                                            <h3>
-                                                {{item.item_no}}
-                                                <span style="width: 24px;height:20px;display:inline-block;">
-                                                    <Icon type="md-copy" size="20" class="copy_icon" :title="i18n.copyContent" v-clipboard:copy="item.item_no" v-clipboard:success="onCopy" v-clipboard:error="onError" />
-                                                </span>
-                                            </h3>
-                                            <p class="isLike" @click="collectGoods(item)">
-                                                <Icon type="ios-heart" size="30" color="red" v-if="item.like === 1" />
-                                                <Icon type="ios-heart" size="30" color="rgb(83, 210, 232)" v-else />
-                                            </p>
-                                        </div>
-                                        <h3 class="prod_name" @click="goGoodsDetail(item.item_no)" :title="i18n.lookDetail">{{item.item_name}}</h3>
-                                        <div class="prod_price">
-                                            <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
-                                            <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="prod_handle">
-                                        <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)"></addCartPrice>
-                                        <a class="add_handle">
-                                            <span @click="addShop(item)" class="add_shop">{{i18n.addCart}} </span>
-                                            <!-- <span :title="i18n.cnumTips" class="cnum_tips">[ {{item.cnum}} ]</span> -->
-                                            <span :title="i18n.cnumTips" class="cnum_tips" :style="item.cnum === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.cnum}} ]</span>
-                                            <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
-                                            <!-- <Poptip
-                                                confirm
-                                                :title="i18n.delTips"
-                                                @on-ok="delCart(item)"
-                                                @on-cancel="''">
-                                                <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash"/>
                                             </Poptip> -->
                                         </a>
                                     </div>
@@ -252,6 +267,46 @@
                         </swiper>
                     </div>
                 </div> -->
+                <!-- 预售商品 -->
+                <div class="host" id="advance" v-if="advaceData.length!==0">
+                    <div class="host_inner">
+                        <h3 class="host_title"><span>{{i18n.advance}}</span> </h3>
+                        <p class="see_more" :title="i18n.lookMoreTips" @click="lookMoreGoods('advance')">{{i18n.lookMore}}</p>
+                        <ul>
+                            <li v-for="(item,index) in advaceData" :key="index">
+                                <div style="margin: 0px 0px 36px;box-shadow: 2px 2px 8px rgba(0,0,0,.2);">
+                                    <div class="prod_top"  @click="$router.push({path: '/goodsDetail',query: {item_no:item.id,advance: 1}})">
+                                        <img v-lazy="item.imgUrl" alt="" :title="i18n.lookDetail">
+                                        <!-- 预定商品已拍数量进度条百分比 -->
+                                        <Tooltip :content="item.progressTip"  max-width="200" class="new_time" placement="top-start" theme="light" style="width: 100%">
+                                            <Progress :percent="item.percent" text-inside  :stroke-color="['#f5582d', '#ffa40d']" status="wrong" :stroke-width="10"/>
+                                        </Tooltip>
+                                        <!-- 预定商品截止时间倒计时时间 -->
+                                        <Tag type="dot" class="down_time" v-if="item.isDead">
+                                            <downTime v-show="item.deadline !== undefined && item.deadline !== '0000-00-00 00:00:00'" class="down_detail" :endTime="new Date(item.deadline).getTime()" :title="i18n.downTimeTips" :itemTime="item.deadline" :startTime="new Date(item.time).getTime()" :endMsg="''"/>
+                                        </Tag>
+                                    </div>
+                                    <div class="prod_info">
+                                        <h3 class="prod_name" @click="$router.push({path: '/goodsDetail',query: {item_no:item.id,advance: 1}})" :title="i18n.lookDetail">{{item.item_name}}</h3>
+                                        <div class="prod_price">
+                                            <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
+                                            <p class="export">{{i18n.export}}<span>￥{{item.sale_price }}</span></p>
+                                        </div>
+                                    </div>
+                                    <!-- 超过预售截止时间，没有预定功能 -->
+                                    <div class="prod_handle" v-if="item.isDead">
+                                        <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)"></addCartPrice>
+                                        <a class="add_handle" >
+                                            <span @click="orderGoods(item)" class="add_shop">{{i18n.addOrder}}</span>
+                                            <span :title="item.cnumTitle" class="cnum_tips" :style="item.goods_order === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.goods_order}} ]</span>
+                                        </a>
+                                    </div>
+                                    <p class="prod_handle"  v-else style="font-size:16px;color:#d92524;">{{i18n.preColsed}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <!-- 浏览记录 -->
                 <div class="commend_goods" v-show="recodesList.length > 0" id="guess">
                     <div class="comment_inner" @mouseenter="swiperEnter" @mouseleave="swiperLeave">
@@ -311,8 +366,8 @@
                         </swiper>
                     </div>
                 </div>
-        </template>
-        </xmAnimation>
+        <!-- </template>
+        </xmAnimation> -->
     </div> 
 </template>
 
@@ -403,6 +458,8 @@ export default {
             commendList: [],
             // 最新产品数据
             latestList: [],
+            // 防疫用品数据
+            epidemicData: [],
             // 底部轮播数据
             bannerBottom: [],
              // 加购物车成功
@@ -445,6 +502,8 @@ export default {
             orderDelErr: this.$t('enterPage.orderDelErr'),
             // 添加的数量不是商品的规格数
             mastSpec:this.$t('enterPage.mastSpec'),
+            // banner右侧视频数据
+            videoSrc: [],
         }
     },
     computed: {
@@ -494,6 +553,10 @@ export default {
         this.getBannerBottom();
         // 获取预售商品信息
         this.getAdvanceSale();
+        // 获取防疫商品数据
+        this.getEpidemicData();
+        // 获取视频
+        this.getVideo();
         NProgress.done();
     },
 
@@ -545,6 +608,29 @@ export default {
                 content: this.copyError,
                 duration: 3
             });
+        },
+        /**
+         * 获取防疫商品数据
+         */
+        getEpidemicData() {
+            NProgress.start();
+            this.$resetAjax({
+                type: 'POST',
+                url: '/home/goods/goods_prevention',
+                success: (res) => {
+                    NProgress.done();
+                    this.fourthLoad = true;
+                    let result = JSON.parse(res);
+                    result.forEach(ele => {
+                        ele.cnumTitle = 0;
+                        ele.isShow = false;
+                        ele.imgUrl = `http://hwimg.xmvogue.com/thumb/${ele.item_no}.jpg?x-oss-process=style/440`
+                        ele.spec = Number(ele.purchase_spec);
+                        ele.carNum = Number(ele.purchase_spec);
+                    });
+                    this.epidemicData = result;
+                },
+            })
         },
         /**
          * 获取预售商品信息
@@ -701,9 +787,6 @@ export default {
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Index/index',
-                data: {
-                    uid : localStorage.uid,
-                },
                 success: (res) => {
                     this.oneLoad = true;
                     let result = JSON.parse(res);
@@ -728,7 +811,23 @@ export default {
                     result.forEach(ele => {
                         ele.imgUrl = `http://img.xmvogue.com/ggao/${ele.pic}?x-oss-process=style/yuan`;
                     });
-                    this.advertising = result.splice(0,2);
+                    this.advertising = result.reverse().splice(0,1);
+                },
+            })
+        },
+        /**
+         * 获取视频
+         */
+        getVideo() {
+            NProgress.start();
+            this.$resetAjax({
+                type: 'POST',
+                url: '/home/index/vedio',
+                success: (res) => {
+                    NProgress.done();
+                    this.twoLoad = true;
+                    let result = JSON.parse(res);
+                    this.videoSrc = result.link;
                 },
             })
         },

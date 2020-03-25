@@ -268,6 +268,7 @@ export default{
                     title: '条码',
                     align: 'center',
                     key: 'item_no',
+                    width: 140,
                 },
                 {
                     title: '商品名称',

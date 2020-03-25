@@ -155,10 +155,11 @@
         <!-- 商品详情图 -->
         <div class="pro-infomation">
             <div class="infomation_inner">
-                <ul class="info_title">
+                <h3 class="info_title" @click="describeClick" :class="{active:clickindex === 1}"><span>{{i18n.describe}}</span></h3>
+                <!--<ul class="info_title">
                     <li @click="describeClick" :class="{active:clickindex === 1}">{{i18n.describe}} </li>
-                    <!-- <li @click="infomatinClick" :class="{active:clickindex === 2}">{{i18n.information}}</li> -->
-                </ul>
+                     <li @click="infomatinClick" :class="{active:clickindex === 2}">{{i18n.information}}</li>
+                </ul> -->
                 <div style="display:flex;">
                     <ul class="note">
                         <li v-if="features">

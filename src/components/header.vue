@@ -753,12 +753,12 @@ export default {
          */
         changeGen(value) {
             let name = '';
-            this.$root.keywork = this.genrename = '';
             this.genreList.forEach(ele => {
                 if(ele.value === value) {
                     name = ele.name;
                 }
             })
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
             switch(value) {
                 case 'A':
                     // 新产品上线

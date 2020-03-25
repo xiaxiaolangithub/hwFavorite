@@ -395,6 +395,7 @@ export default {
                             content: this. itemCodeError,
                             duration: 3
                         });
+                        this.goodsCode = '';
                     } else {
                         let result = JSON.parse(res)[0];
                         this.goodsName = result.item_name;

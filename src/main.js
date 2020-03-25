@@ -113,7 +113,7 @@ Vue.component('FooterComponent', FooterComponent);
 
 // 跳转后返回顶部
 router.afterEach((to,from,next) => {
-    if(to.hash === '#host' || to.hash === '#latest' || to.hash === '#recommend'  || to.hash === '#guess') {
+    if(to.hash === '#host' || to.hash === '#latest' || to.hash === '#recommend'  || to.hash === '#guess' || to.hash === '#advance' || to.hash === '#prevention') {
         return false;
     }
     window.scrollTo(0,0);

@@ -258,6 +258,7 @@ module.exports = {
         mastSpec: 'Product quantity must be multiple of specification!',
         preColsed: 'Pre-orders Closed.',
         downTimeTips: 'Pre-Ordering Deadline',
+        prevention: 'Epidemic Prevention Supplies',
 
     },
     // 商品列表页
@@ -1376,7 +1377,7 @@ module.exports = {
     advertisementPage: {
         adverType: '类别',
         adverTitle: '标题',
-        adverImg: '图片名称',
+        adverImg: '名称',
         adverLink: '链接',
         adverApp: 'APP',
         operation: '操作',
@@ -1408,15 +1409,15 @@ module.exports = {
         linkTips: '链接选择不能为空',
         appTips: 'app选择不能为空',
         typeTips: '类别选择不能为空',
-        picTips: '图片名称不能为空',
+        picTips: '名称不能为空',
         uploadTitle: '上传 1 张 图片（不超过3MB，支持 jpg、png 格式）',
         delItemSuccess: `删除成功 ！`,
         delItemError: `抱歉，删除失败 ！`,
         editItemSuccess: `修改成功！`,
         addItemSuccess: `成功添加！ `,
         imgNotice: '只能上传一张图片',
-        linkNotes: '先上传图片，自动获取链接',
-        picNotes: '先上传图片，自动获取图片名称',
+        linkNotes: '先上传，自动获取链接',
+        picNotes: '先上传，自动获取图片/视频名称',
     },
     
 }
