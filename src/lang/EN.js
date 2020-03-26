@@ -259,6 +259,7 @@ module.exports = {
         preColsed: 'Pre-orders Closed.',
         downTimeTips: 'Pre-Ordering Deadline',
         prevention: 'Epidemic Prevention Supplies',
+        placeholdertip: 'Please Select',
 
     },
     // 商品列表页

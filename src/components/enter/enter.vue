@@ -23,7 +23,7 @@
                         <!--  animated fadeInRight -->
                         <ul class="promotion">
                             <li v-for="(item,index) in advertising " :key="index">
-                                <img v-lazy="item.imgUrl" alt="" @click="$router.push({path: '/searchKey', query: {keyword: i18n.NewArrivals, select: 'A'}})">
+                                <img v-lazy="item.imgUrl" alt="" @click="goCorresGoods(item)">
                             </li>
                             <li style="width:100%;position:relative;padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
                                 <video :src="videoSrc" controls="controls" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%"></video>
@@ -526,6 +526,7 @@ export default {
         }
     },
     mounted() {
+        $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
         setTimeout(() => {
             this.isSwiperReaded = true;
             this.isSwiperBottom = true;
@@ -564,6 +565,14 @@ export default {
         ...mapActions([
             'getCartInfo',
         ]),
+        goCorresGoods(item) {
+            let str = item.app_act.substring(item.app_act.indexOf('|') + 1)
+            if(str.length === 2) {
+                this.$router.push({path: '/typeList', query: {cls_id: str,name: ''}})
+            } else {
+                this.$router.push({ path: "/goodsDetail", query: { item_no: str } });  
+            }
+        },
          /**
         *  鼠标移入浏览记录轮播禁止轮播
         */
@@ -617,6 +626,10 @@ export default {
             this.$resetAjax({
                 type: 'POST',
                 url: '/home/goods/goods_prevention',
+                data: {
+                    lang: localStorage.langSelect,
+                    uid: localStorage.uid
+                },
                 success: (res) => {
                     NProgress.done();
                     this.fourthLoad = true;

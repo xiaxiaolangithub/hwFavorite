@@ -225,11 +225,11 @@ export default {
                         ])
                     }
                 }, */
-                /* {
+                {
                     title:this.$t('servicesDetailPage.state'),
                     align: 'center',
                     key: 'statusResult',
-                }, */
+                },
             ],
             // 是否显示审核上传图片的弹窗
             modal: false,

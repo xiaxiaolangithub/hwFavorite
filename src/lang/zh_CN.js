@@ -252,6 +252,7 @@ module.exports = {
         preColsed: '预售结束',
         downTimeTips: '截止日期',
         prevention: '防疫用品',
+        placeholdertip: '请选择',
     },
     // 商品列表页
     typeListPage: {

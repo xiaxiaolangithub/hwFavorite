@@ -63,36 +63,6 @@
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <!-- <p :title="i18n.signOut" @click="isLoginReady=true" class="shortcut">{{i18n.signOut}}</p> -->
-                 <!-- <a href="">会员系统</a> -->
-                <!-- <a @click="$router.push({path:'/order/favorite', query: {name2: 'c',name3:'8',title: '我的收藏夹'}})">收藏夹</a> -->
-                <!-- <div class="shopcar_item" @mouseenter="isHasShopData"  @mouseleave="leaveCar" @click="$router.push({path: '/cart'})">
-                     <img src="@/assets/images/enter/add_icon3.png"  class="shopcaricon" v-if="isShowEnter">
-                     <img src="@/assets/images/enter/add_icon1.png"  class="shopcaricon" v-else>
-                     <div>
-                        <p style="display: flex;align-items: center;"><span style="font-size:10px;">数量：</span> <span style="margin-top: 2px;display: inline-block;margin-left:5px;">{{cartNum}} 件</span></p>
-                        <p style="margin-top:-5px;"><span style="font-size:10px;margin-right: 5px;">金额：</span>{{totalPrice}}  元</p>
-                     </div>
-                </div> -->
-                <!-- 购物车有数据 -->
-                <!-- <ul class="shopcar_list">
-                    <li v-for="(item,index) in headerCartData.list" :key="index" @mouseenter="item.shopDelIcon=true" @mouseleave="item.shopDelIcon=false;">
-                        <div class="goods_image">
-                            <img :src="item.imgUrl" alt="">
-                        </div>
-                        <span class="goods_title">{{item.item_name}}</span>
-                        <span class="goods_price">{{item.price}} × {{item.num}}</span>
-                        <Icon type="close-round" v-show="item.shopDelIcon" @click="delCartGoods(item)"></Icon>
-                    </li>
-                    <div class="go_carButton">
-                        <div class="car_footer">
-                            <p class="total_num">共 <span>{{cartNum}}</span> 件商品</p>
-                            <p class="total_amount">合计 <span>{{totalPrice}} </span>元</p>
-                        </div>
-                        <Button class="go_shopCar" @click="$router.push({path: '/cart'})">去购物车结算</Button>
-                    </div>
-                </ul> -->
-                
             </div>
         </div>
         <div class="search">
@@ -113,30 +83,12 @@
                             </Input>
                             <Button slot="append" icon="ios-search" @click="searchGoods('BB')" style="z-index:99;"></Button>
                        </div>
-                        <!-- <Input v-model="$root.keywork" clearable @mousedown.stop.native="inputMousedown" @on-enter="searchGoods"/>
-                        <Button slot="append" icon="ios-search" @click="searchGoods"></Button>
-                        <div class="search-hot-words fade-in" v-if="$root.isKeyword">
-                            <a v-for="(item, index) in inputData" :key="index">{{item.name}}</a>
-                        </div>
-                        <div class="keyword-list" v-if="isShowKeyList">
-                            <ul class="result-list">
-                                <li v-for="(item,index) in $root.keywordList" :key="index" @mousedown.stop="getKeyHistory(item)" @click="searchHis(item)">
-                                    <a>
-                                        <span class="keyword"></span>
-                                        {{item.content}}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div> -->
                         <div>
-                            <a class="newArrivals" v-for="(item,index) in i18n.lineList" :key="index" :title="item.label" @click="$router.push({path: '/searchKey', query: {keyword: item.label, select: 'BB'}})">{{item.label}}</a>
+                            <a class="newArrivals" v-for="(item,index) in i18n.lineList" :key="index" :title="item.label" @click="specialSearch(item.label, 'BB')">{{item.label}}</a>
                         </div>
                     </div>
                     <!-- 购物车 -->
                     <div @click="$router.push({path: '/cart'})" class="shopcar">
-                        <!-- <Badge :count="pageNum" :title="i18n.cartNums"> -->
-                        <!-- </Badge> -->
-                        <!-- <span style="font-size:16px;margin-left:5px;">{{i18n.shopcar}}</span> -->
                         <div class="shopcart_left">
                             <i class="iconfont icon-gouwuche" style="font-size:36px;margin-right:10px;"></i>
                         </div>
@@ -158,17 +110,17 @@
                         </li>
                         <li>
                             <i class="iconfont icon-xinpin" style="color:#f4ea2a;font-size: 22px;"></i>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.NewArrivals, select: 'A'}})">{{i18n.NewArrivals}}</a>
+                            <a class="newArrivals" @click="specialSearch(i18n.NewArrivals, 'A')">{{i18n.NewArrivals}}</a>
                         </li>
                         <li>
                             <i class="iconfont icon-fangyikouzhaocopyx" style="color:#1afa29;font-size: 26px;"></i>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.prevention, select: 'K'}})">
+                            <a class="newArrivals" @click="specialSearch(i18n.prevention, 'K')">
                                 {{i18n.prevention}}
                             </a>
                         </li>
                         <li>
                             <i class="iconfont icon-yushouhuore" style="color:red;font-size: 22px;"></i>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.advance, select: 'J'}})">
+                            <a class="newArrivals" @click="specialSearch(i18n.advance, 'J')">
                                 {{i18n.advance}}
                             </a>
                         </li>
@@ -184,14 +136,14 @@
                             </Dropdown>
                         </li>
                          <li>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.chinaProduct, select: 'F'}})">{{i18n.chinaProduct}}</a>
+                            <a class="newArrivals" @click="specialSearch(i18n.chinaProduct, 'F')">{{i18n.chinaProduct}}</a>
                         </li>
                         
                         <li>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.Latest, select: 'B'}})">{{i18n.Latest}}</a>
+                            <a class="newArrivals" @click="specialSearch(i18n.Latest, 'B')">{{i18n.Latest}}</a>
                         </li>
                         <li>
-                            <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.oneOrder, select: 'E'}})">{{i18n.oneOrder}}</a>
+                            <a class="newArrivals" @click="specialSearch(i18n.oneOrder, 'E')">{{i18n.oneOrder}}</a>
                         </li>
                         <!-- <li>
                             <a class="newArrivals" @click="$router.push({path: '/searchKey', query: {keyword: i18n.clearance, select: 'D'}})">{{i18n.clearance}}</a>
@@ -200,14 +152,6 @@
                             <a>{{item.cls_name}}</a>
                         </li> -->
                     </ul>
-                    <!-- 上下轮播提示 -->
-                    <!-- <vue-seamless-scroll :data="listData" :class-option="optionSingleHeight" class="seamless-warp">
-                        <ul class="item">
-                            <li v-for="(item,index) in listData" :key="index">
-                                <span class="title" v-text="item.title"></span>
-                            </li>
-                        </ul>
-                    </vue-seamless-scroll> -->
                     <p class="signOut" @click="isLoginReady=true;">{{i18n.signOut}}</p>
                     <div class="goods_list" v-if="isShowGoods" :class="{objClass:$root.isAllGoods}"  @mouseleave="allGoodsLeave">
                         <div class="googs_inner" @mouseleave="mouseLeaveTitle" @mouseenter="goodsMouseEnter">
@@ -254,28 +198,6 @@ import "@/assets/style/animate.less";                             // 引入动�
 export default {
     data(){
         return {
-            listData: [
-                {
-                    'title': '商品一',
-                    'date': '2017-12-16'
-                }, 
-                {
-                    'title': '商品二',
-                    'date': '2017-12-16'
-                }, 
-                {
-                    'title': '商品三',
-                    'date': '2017-12-16'
-                }, 
-                {
-                    'title': '商品四',
-                    'date': '2017-12-16'
-                },
-                {
-                    'title': '商品五',
-                    'date': '2017-12-16'
-                }, 
-            ],
             // 是否显示退出登录提示框
             isLoginReady: false,
             current: -1,
@@ -317,36 +239,7 @@ export default {
             keyworkTip: this.$t('headerPage').keyworkTip,
             // 输入框里固定数据
             inputData: [],
-             // 活动数据
-            liveData: [
-                {
-                    title: '新品上架',
-                    name: '新品上架'                                  
-                },
-                {
-                    title: '最新补货',
-                    name: '最新补货'
-                },
-                {
-                    title: '地区最畅销商品',
-                    name: '地区最畅销商品'
-                },
-                {
-                    title: '按店铺销售补货',
-                    name: '按店铺销售补货'
-                },
-                {
-                    title: '1折特价清仓(不退换)',
-                    name: '1折特价清仓(不退换)'
-                },
-                {
-                    title: '一件起订',
-                    name: '一件起订'
-                },
-            ],
             isShowCar: false,
-            // 是否显示搜索记录
-            isShowKeyList: false,
             // 是否显示商品分类
             isShowList: false,
             // 是否显示左侧大的商品分类数据
@@ -365,7 +258,6 @@ export default {
     },
     mounted() {
         $(document).on('mousedown.input', () => {
-            this.isShowKeyList = false;
             this.$root.isKeyword = true;
         });
     },
@@ -468,6 +360,10 @@ export default {
                 }
             }
             this.fullscreen = !this.fullscreen;
+        },
+        specialSearch(label, num) {
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
+            this.$router.push({path: '/searchKey', query: {keyword: label, select: num}})
         },
         /**
          * 背景图动起来
@@ -648,54 +544,6 @@ export default {
             this.judgeLanguage();
         },
         /**
-         * 得到表头里的购物车商品数据
-         */
-        /* getCartData() {
-            this.$resetAjax({
-                type: 'POST',
-                url: '/index.php/Home/Cart/index',
-                data: {
-                    uid: localStorage.uid,
-                    lang: localStorage.langSelect,
-                },
-                success: (res) => {
-                    let result = JSON.parse(res);
-                    if(result.list.length !== 0) {
-                        let result = result.list;
-                        result.list.forEach(ele => {
-                            ele.imgUrl = `https://ximiphoto.oss-cn-hangzhou.aliyuncs.com/thumb/${ele.item_no}.jpg?x-oss-process=style/80`;
-                            ele.content = '';
-                        });
-                        this.setCartDataList(result.list);
-                        // 购物车商品总数量
-                        this.setCartDataListNum(result.spnum);
-                        // 购物车总金额
-                        this.setCartDataListPrice(result.spprice);
-                    }
-                },
-            })
-        }, */
-        /**
-         * 判断是否有购物车数据，显示哪个内容
-         */
-        isHasShopData() {
-            this.isShowEnter = false;
-            if(this.$root.headerCartData.list.length === 0) {
-                this.$root.headerCartData.isHasNoCar = true;
-                this.$root.headerCartData.isShowCar = false;
-            } else {
-                this.$root.headerCartData.isHasNoCar = false;
-                this.$root.headerCartData.isShowCar = true;
-            }
-        },
-        /**
-         * 鼠标移出购物车头部
-         */
-        leaveCar() {
-            this.$root.headerCartData.isHasNoCar = false;
-            this.isShowEnter = true;
-        },
-        /**
          *  鼠标移入大盒子商品数据
          */
         goodsMouseEnter() {
@@ -728,27 +576,6 @@ export default {
             }
         },
         /**
-         *  鼠标弹下搜索框里
-         */
-        inputMousedown() {
-            this.isShowKeyList = true;
-            this.$root.isKeyword = false;
-        },
-        /**
-         *  获取本地搜索关键字记录
-         */
-        getKeyHistory(item) {
-        },
-        /**
-         * 快捷商品查询
-         */
-        goReCommend(item) {
-            this.genrename = item.name;
-            this.$root.keywork = this.genrename;
-            this.$root.isKeyword = false; // 让输入框里的默认关键词消失
-            this.$router.push({path: '/searchKey', query: {keyword: this.$root.keywork, select: 0}})
-        },
-        /**
          * 查询框左边下拉框
          */
         changeGen(value) {
@@ -758,7 +585,8 @@ export default {
                     name = ele.name;
                 }
             })
-            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
+            this.genrename = '';
+            $('.ivu-select-selected-value').text(name)
             switch(value) {
                 case 'A':
                     // 新产品上线
@@ -794,7 +622,9 @@ export default {
          *  搜索商品
          */
         searchGoods(data) {
-            this.genre = '';
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
+            $('.ivu-select-placeholder').text(this.i18n.placeholdertip)
+            // this.genre = '';
             // 全部商品
             if(data === 'AA') {
                 let name = '';
@@ -832,30 +662,16 @@ export default {
             this.$router.push({path: '/searchKey', query: {keyword: ipName, select: data}})
         },
         /**
-         * 通过搜索历史记录关键词来搜索商品
-         */
-        searchHis(item) {
-            this.$root.isKeyword = false; // 让输入框里的默认关键词消失
-            this.$root.keywork = item.content;
-            this.$router.push({path: '/searchKey', query: {keyword: this.$root.keywork}})
-        },
-        /**
          * 鼠标经过购物车弹窗里面的li
          */
         mouseenterLi(item) {
             item.shopDelIcon = true;
         },
-         /**
-         * 去显示所有商品列表
-         */
-        getAllGoods() {
-            this.$root.keywork = '';
-            this.$router.push({path: '/typeList', query: {cls_id: 0}})
-        },
         /**
          * 跳转到商品分类页面
          */
         goTypeList(item) {
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
             this.isShowGoods = false; //鼠标点击商品分类时把商品分类显示左右商品分类隐藏 
             this.genrename = this.$root.keywork = '';
             this.$router.push({path: '/typeList', query: {cls_id: item.cls_id,name: item.cls_name}})
@@ -865,6 +681,7 @@ export default {
          */
         goreplensh() {
             this.$root.keywork = '';
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
             this.$router.push({path: '/replenishment', query: {title: '按销售补货'}})
         },
         /**
@@ -873,30 +690,9 @@ export default {
         goLivePage(item) {
             this.$root.keywork = '';
             let title = item.title;
+            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
             this.$router.push({path: '/livePage',query:{title: `${title}`}})
         },
-        /**
-         * 点击删除购物车数据
-         */
-        /* delCartGoods(item) {
-            this.$resetAjax({
-                type: 'POST',
-                url: `/index.php/Somego/Cart/delGoods?sn=${item.item_no}`,
-                data: {
-                    uid: this.$root.userData.uid,
-                },
-                success: (res) => {
-                    let result = JSON.parse(res).result;
-                    if(result === 'ok') {
-                        this.$Message.success('很不舍, 由于您成功删除了该项商品');
-                        this.getCartData();
-                    } else{
-                        this.$Message.error('抱歉亲亲, 删除失败');
-                    }
-                },
-            })
-        }, */
-        
         
     }
     

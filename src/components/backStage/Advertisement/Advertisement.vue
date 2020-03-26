@@ -10,31 +10,31 @@
             <Form :model="formData" ref="formData" :rules="ruleValidate">
                 <Row :gutter="32">
                     <i-Col span="24">
-                        <FormItem :label="i18n.adverType" prop="type" label-position="top">
+                        <FormItem label="类型" prop="type" label-position="top">
                             <Select v-model="formData.type" @on-change="changeType">
                                 <Option v-for="item in typeList" :value="item.id" :key="item.id">{{ item.label }}</Option>
                             </Select>
                         </FormItem>
                     </i-Col>
                     <i-Col span="24">
-                        <FormItem :label="i18n.adverTitle" prop="title" label-position="top">
+                        <FormItem label="标题" prop="title" label-position="top">
                             <Input v-model="formData.title" />
                         </FormItem>
                     </i-Col>
                 </Row>
                 <Row :gutter="32">
                     <i-Col span="24" v-show="!isVideo">
-                        <FormItem :label="i18n.adverApp" prop="app" label-position="top">
+                        <FormItem label="APP 【商品条码：Goods|6941595186714 或 商品大类类别码：Goods|28 】" prop="app" label-position="top">
                             <Input v-model="formData.app" />
                         </FormItem>
                     </i-Col>
                     <i-Col span="24">
-                        <FormItem :label="i18n.adverImg" prop="pic" label-position="top">
+                        <FormItem label="名称" prop="pic" label-position="top">
                             <Input v-model="formData.pic" :placeholder="i18n.picNotes" disabled />
                         </FormItem>
                     </i-Col>
                     <i-Col span="24">
-                        <FormItem :label="i18n.adverLink" prop="link" label-position="top">
+                        <FormItem label="链接" prop="link" label-position="top">
                             <Input v-model="formData.link" :placeholder="i18n.linkNotes" disabled />
                         </FormItem>
                     </i-Col>
