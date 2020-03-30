@@ -160,24 +160,27 @@
                     <li @click="describeClick" :class="{active:clickindex === 1}">{{i18n.describe}} </li>
                      <li @click="infomatinClick" :class="{active:clickindex === 2}">{{i18n.information}}</li>
                 </ul> -->
-                <div style="display:flex;">
-                    <ul class="note">
-                        <li v-if="features">
-                            <label>{{i18n.features}}</label>
-                            <span>{{features}}</span>
-                        </li>
-                        <li v-if="usage">
-                            <label>{{i18n.usage}}</label>
-                            <span>{{usage}}</span>
-                        </li>
-                        <li v-if="notes">
-                            <label>{{i18n.notes}}</label>
-                            <span>{{notes}}</span>
-                        </li>
-                        <li class="img_contanier">
-                            <img v-lazy="DetailImgUrl" alt="" @error="defImg()" style="width:800px;">
-                        </li>
-                    </ul>
+                <div style="display:flex;justify-content: space-between;">
+                    <div class="img_contanier">
+                        <ul class="note">
+                            <li v-if="features">
+                                <label>{{i18n.features}}</label>
+                                <span>{{features}}</span>
+                            </li>
+                            <li v-if="usage">
+                                <label>{{i18n.usage}}</label>
+                                <span>{{usage}}</span>
+                            </li>
+                            <li v-if="notes">
+                                <label>{{i18n.notes}}</label>
+                                <span>{{notes}}</span>
+                            </li>
+                        </ul>
+                        <div class="detail_video" v-show="isVideoDetail">
+                            <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="detailOptions"></video-player>
+                        </div>
+                        <img v-lazy="DetailImgUrl" alt="" @error="defImg()" style="width:800px;">
+                    </div>
                     <div class="relation" v-if="relationData.length">
                         <ul class="relation_inner">
                             <li class="rel_title">{{i18n.related}}</li>
@@ -386,7 +389,7 @@ export default {
             mastSpec:this.$t('goodsDetailPage.mastSpec'),
             // 在售商品视频是否加载成功
             isVideo: true,
-            // 视频地址
+            // 主图视频地址
             videoUrl: '',
             playerOptions : {
                 playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -411,7 +414,34 @@ export default {
                     remainingTimeDisplay: false,
                     fullscreenToggle: true  //全屏按钮
                 }
-            }
+            },
+            // 详情商品视频配置
+            detailOptions:{
+                playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+                autoplay: false, //如果true,浏览器准备好时开始回放。
+                muted: false, // 默认情况下将会消除任何音频。
+                loop: false, // 导致视频一结束就重新开始。
+                preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+                language: 'zh-CN',
+                aspectRatio: '4:3', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+                fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+                sources: [{
+                    type: "",
+                    src: ''//url地址   
+                    // src: "" //url地址
+                }],
+                poster: '', //你的封面地址
+                // width: document.documentElement.clientWidth,
+                notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+                controlBar: {
+                    timeDivider: true,
+                    durationDisplay: true,
+                    remainingTimeDisplay: false,
+                    fullscreenToggle: true  //全屏按钮
+                }
+            },
+            // 是否显示详情视频
+            isVideoDetail: false,
         }
     },
 
@@ -741,6 +771,12 @@ export default {
                 this.imgSrc = 'https://uh.edu/pharmacy/_images/directory-staff/no-image-available.jpg'
             };
             this.playerOptions.poster = info.img;
+            if(info.video) {
+                this.detailOptions['sources'][0]['src'] = info.video;
+                this.isVideoDetail = true;
+            } else {
+                this.isVideoDetail = false;
+            }
             this.videoUrl = `https://ximiphoto.oss-cn-hangzhou.aliyuncs.com/video/${info.item_no}.mp4`;
             this.DetailImgUrl = `http://hwimg.xmvogue.com/detail/${info.item_no}-.jpg?x-oss-process=style/800`; // 商品详情图片
             // 判断视频是否加载成功

@@ -292,3 +292,19 @@ function videoShow(url) {
     };
 }
 export {videoShow}
+
+
+
+
+//判断图片是否存在
+function CheckImgExists(imgurl) {
+    var ImgObj = new Image(); //判断图片是否存在  
+    ImgObj.src = imgurl;  
+    //存在图片
+    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+        return true;
+    } else {  
+        return false;
+    }   
+}
+export {CheckImgExists}

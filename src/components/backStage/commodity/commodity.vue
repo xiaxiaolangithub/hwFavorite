@@ -68,111 +68,123 @@
         <Drawer :title="drawerTitle" v-model="isGoodsDrawer" width="720" :styles="styles" class="commodity_drawer" :draggable="true">
             <Form :model="formData">
                 <Row :gutter="32">
-                     <i-Col span="24">
+                     <i-Col span="12">
                         <FormItem label="条码：" label-position="top">
                             <Input v-model="formData.item_no" disabled/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="名称 (中文)：" label-position="top">
                             <Input v-model="formData.item_name" disabled/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="名称 (英文)：" label-position="top">
                             <Input v-model="formData.item_en" disabled/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="材质 (中文)：" label-position="top">
                             <Input v-model="formData.material" type="textarea" :autosize="true" placeholder="请输入中文材质..." />
                         </FormItem>
                     </i-Col>
                 </Row>
                 <Row :gutter="32">
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="材质 (英文)：" label-position="top">
                             <Input v-model="formData.material_en" type="textarea" :autosize="true" placeholder="请输入英文材质..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="尺寸 (中文)：" label-position="top">
                             <Input v-model="formData.lwh" placeholder="请输入中文尺寸..."/>
                         </FormItem>
                     </i-Col>
-                     <i-Col span="24">
+                     <i-Col span="12">
                         <FormItem label="尺寸 (英文)：" label-position="top">
                             <Input v-model="formData.lwh_en" placeholder="请输入英文尺寸..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="填充物 (中文)：" label-position="top">
                             <Input v-model="formData.stuffing" type="textarea" :autosize="true" placeholder="请输入中文填充物..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="填充物 (英文)：" label-position="top">
                             <Input v-model="formData.stuffing_en" type="textarea" :autosize="true" placeholder="请输入英文填充物..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="产品特点 (中文)：" label-position="top">
                             <Input v-model="formData.features" type="textarea" :autosize="true" placeholder="请输入中文产品特点..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="产品特点 (英文)：" label-position="top">
                             <Input v-model="formData.features_en" type="textarea" :autosize="true" placeholder="请输入英文产品特点..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="使用方法 (中文)：" label-position="top">
                             <Input v-model="formData.usage" type="textarea" :autosize="true" placeholder="请输入中文使用方法..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="使用方法 (英文)：" label-position="top">
                             <Input v-model="formData.usage_en"  type="textarea" :autosize="true" placeholder="请输入英文使用方法..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="注意事项 (中文)：" label-position="top">
                             <Input v-model="formData.notes" type="textarea" :autosize="true" placeholder="请输入中文注意事项..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="注意事项 (英文)：" label-position="top">
                             <Input v-model="formData.notes_en" type="textarea" :autosize="true" placeholder="请输入英文注意事项..."/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="警告语 (中文)：" label-position="top">
                             <Input v-model="formData.caution" type="textarea" :autosize="true" placeholder="请输入中文警告语..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="警告语 (英文)：" label-position="top">
                             <Input v-model="formData.caution_en" type="textarea" :autosize="true" placeholder="请输入英文警告语..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="产品相关证书：" label-position="top">
                             <Input v-model="formData.credential" type="textarea" :autosize="true" placeholder="请输入产品相关证书..." />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="产品型号：" label-position="top">
                             <Input v-model="formData.model" type="textarea" :autosize="true"  disabled/>
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="产品包装形式：" label-position="top">
                             <Input v-model="formData.packaging" type="textarea" :autosize="true" disabled />
                         </FormItem>
                     </i-Col>
-                    <i-Col span="24">
+                    <i-Col span="12">
                         <FormItem label="执行标准：" label-position="top">
                             <Input v-model="formData.standard" type="textarea" :autosize="true" disabled />
+                        </FormItem>
+                    </i-Col>
+                    <i-Col span="12">
+                        <FormItem label="上传商品视频：" label-position="top" class="detail_upload">
+                            <Upload action="http://order.xmvogue.com/word/public/index.php?s=admin/goods/upload_vedio" :before-upload="handleBeforeUpload" :show-upload-list="false" :max-size="10240" :format="['AVI','mov','rmvb','rm','FLV','mp4','3GP']" :on-success="videoSuccess" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError">
+                                <Button icon="ios-cloud-upload-outline">上传</Button>
+                            </Upload>
+                        </FormItem>
+                    </i-Col>
+                    <i-Col span="24">
+                        <FormItem label="商品视频地址：" label-position="top">
+                            <Input v-model="formData.videoUrl" type="text" placeholder="请先进行视频上传，会自动填充视频地址" :autosize="true" />
                         </FormItem>
                     </i-Col>
                 </Row>
@@ -420,6 +432,7 @@
 import NProgress from "nprogress"; // 引入进度条
 import "nprogress/nprogress.css"; // 引入进度条
 import isRepeat from '@/assets/js/tool.js'
+import CheckImgExists from '@/assets/js/tool.js'
 export default {
     data() {
         return {
@@ -777,30 +790,24 @@ export default {
                     width: 120,
                     // 单元格插入图片
                     render: (h, { row }) => {
-                        return h("img", {
-                            style: {
-                                //设置样式
-                                height: row.pic ? "80px" : "",
-                                "border-radius": "5%",
-                                border: 0,
-                                cursor: "pointer",
-                                height: '80px',
-                                'margin-top': '5px'
-                            },
-                            attrs: {
-                                //设置属性
-                                src: row.pic ? `http://img.xmvogue.com/thumb/${row.item_no}.jpg?x-oss-process=style/80` : ""
-                            },
-                            domProps: {
-                                title: row.pic ? "点击查看商品大图" : ""
-                            },
-                            on: {
-                                click: () => {
-                                    window.open(row.pic);
-                                }
-                            }
-                        });
+                        return (
+                            <img v-lazy={`http://img.xmvogue.com/thumb/${row.item_no}.jpg?x-oss-process=style/80`} onClick={() =>this.lookImage(row)} alt="" style="width:80px;margin:5px;cursor:pointer" title="查看图片"/> 
+                        )
                     }
+                },
+                {
+                    title: '视频',
+                    align: 'center',
+                    key: 'video',
+                    width:180,
+                    render:(h, {row}) => {
+                        return (
+                            <div>
+                                {(row.video !== null && row.video !== '') && <video src={row.video} controls="controls" style="width: 160px;margin: 5px;"></video>}
+                                {(row.video === null ||   row.video === '') && <span>无</span>}
+                            </div>
+                        )
+                    },
                 },
                 {
                     title: "价格",
@@ -890,24 +897,14 @@ export default {
                     }
                 },
                 {
-                    title: "同款",
-                    align: "center",
-                    key: "likenum",
-                    render: (h, { row }) => {
-                        return (
-                            <div onClick={() => this.rowBind(row)} class="like_row" title="点击查看或修改同款商品" >
-                                <a>{row.likenum}</a>
-                            </div>
-                        );
-                    } 
-                },
-                {
-                    title: '产品设置',
+                    title: '设置',
                     align: "center",
                     key: "",
-                    width: 200,
+                    width:99,
                     render:(h,{row})=>{
-                        return h('div',[
+                        return h('div',
+                        {class: 'setProduct'},
+                        [
                             h('i-switch', {
                                 props:{
                                     value: row.display_flag === 1 ? true : false,
@@ -924,7 +921,7 @@ export default {
                                 },
                                 style: {
                                     margin: '0 0 0 2px',
-                                    display: this.isOnline ? 'inline-block' : 'none',
+                                    display: this.isOnline ? 'block' : 'none',
                                 },
                                 on: {
                                 'on-change': (value) => {//触发事件是on-change,用双引号括起来，
@@ -964,7 +961,7 @@ export default {
                                     },
                                     scopedSlots:{
                                         open:()=>h('span','推荐'),
-                                        close:()=>h('span','不推荐')
+                                        close:()=>h('span','不推')
                                     },
                                     domProps: {
                                         title: row.rec === 1 ? '推荐该商品' : '取消推荐该商品',
@@ -976,116 +973,21 @@ export default {
                                         }
                                   }},)
                         ]);
-                        /* return h('i-switch',{
-                            props:{
-                                value: row.display_flag === 1 ? true : false,
-                                size:'large',
-                                'true-color':"#218da0",
-                                'false-color': "#aba2a2",
-                            },
-                            scopedSlots:{
-                                open:()=>h('span','上线'),
-                                close:()=>h('span','下线')
-                            },
-                            domProps: {
-                                title: row.display_flag === 1 ? '上线商品' : '下线商品',
-                            },
-                            on: {
-                                'on-change': (value) => {//触发事件是on-change,用双引号括起来，
-                                    //参数value是回调值，并没有使用到
-                                    this.changeDisplay(row,value) //params.index是拿到table的行序列，可以取到对应的表格值
-                                }
-                            },
-                        }) */
                     }
                 },
-                /* {
-                    title: "热销",
+                {
+                    title: "同款",
                     align: "center",
-                    key: "heat",
-                    render:(h,{row})=>{
-                        return h('i-switch',{
-                            props:{
-                                value: row.heat === 1 ? true : false,
-                                size:'large',
-                                'true-color':"#ed4014",
-                                'false-color': "#aba2a2",
-                            },
-                            scopedSlots:{
-                                open:()=>h('span','热销'),
-                                close:()=>h('span','普通')
-                            },
-                            domProps: {
-                                title: row.heat === 1 ? '热销商品' : '取消热销商品',
-                            },
-                            on: {
-                                'on-change': (value) => {//触发事件是on-change,用双引号括起来，
-                                    //参数value是回调值，并没有使用到
-                                    this.changeHeat(row,value) //params.index是拿到table的行序列，可以取到对应的表格值
-                                }
-                            },
-                        })
-                    }
-                }, */
-                /* {
-                    title: "推荐",
-                    align: "center",
-                    key: "rec",
-                    render:(h,{row})=>{
-                        return h('i-switch',{
-                            props:{
-                                value:row.rec === 1 ? true : false,
-                                size:'large',
-                                'true-color':"#19be6b",
-                                'false-color': "#aba2a2"
-                            },
-                            scopedSlots:{
-                                open:()=>h('span','推荐'),
-                                close:()=>h('span','不推荐')
-                            },
-                            domProps: {
-                                title: row.rec === 1 ? '推荐该商品' : '取消推荐该商品',
-                            },
-                            on: {
-                                'on-change': (value) => {//触发事件是on-change,用双引号括起来，
-                                    //参数value是回调值，并没有使用到
-                                    this.changeRec(row,value) //params.index是拿到table的行序列，可以取到对应的表格值
-                                }
-                            }
-                        })
-                    }
-                }, */
-                // {
-                //     title: "库存",
-                //     align: "center",
-                //     key: "stock_num",
-                //     width:70,
-                // },
-                // {
-                //     title: '推荐',
-                //     align: 'center',
-                //     width: '150',
-                //     key: 'memo',
-                //     render:(h, params) => {
-                //     return h('div', [
-                //         h('i-switch', { //数据库1是已处理，0是未处理
-                //             props: {
-                //                 type: 'primary',
-                //                 value: params.row.treatment === 1 //控制开关的打开或关闭状态，官网文档属性是value
-                //             },
-                //             style: {
-                //                 marginRight: '5px'
-                //             },
-                //             on: {
-                //                 'on-change': (value) => {//触发事件是on-change,用双引号括起来，
-                //                     //参数value是回调值，并没有使用到
-                //                     // this.switch(params.index) //params.index是拿到table的行序列，可以取到对应的表格值
-                //                 }
-                //             }
-                //         },)
-                //     ]);
-                //     }
-                // },
+                    key: "likenum",
+                    width: 50,
+                    render: (h, { row }) => {
+                        return (
+                            <div onClick={() => this.rowBind(row)} class="like_row" title="点击查看或修改同款商品" >
+                                <a>{row.likenum}</a>
+                            </div>
+                        );
+                    } 
+                },
                 {
                 title: "操作",
                 key: "action",
@@ -1241,10 +1143,10 @@ export default {
                 position: "static"
             },
             formData: {
-                item_no: '', // 条码
-                item_name: "", // 名称
-                item_en: "", // 英文名
-                item_no: "", // 货号
+                item_no: '',            // 条码
+                item_name: "",          // 名称
+                item_en: "",            // 英文名
+                item_no: "",            // 货号
                 stuffing: '',
                 stuffing_en: '',
                 features: '',
@@ -1261,13 +1163,14 @@ export default {
                 credential: '',
                 model: '',
                 packaging: '',
-                base_price: "", // 进价
-                sale_price: "", // 售价
-                item_clsno: "", // 类别
-                purchase_spec: "", // 规格
-                stock_num: "", // 库存
-                pic: "", // 图片
-                uptime: "" // 商品上传时间
+                base_price: "",         // 进价
+                sale_price: "",         // 售价
+                item_clsno: "",         // 类别
+                purchase_spec: "",      // 规格
+                stock_num: "",          // 库存
+                pic: "",                // 图片
+                videoUrl: '',           // 介绍商品的视频地址
+                uptime: ""              // 商品上传时间
             },
             // 是否显示详情抽屉底部框
             isFooter: true,
@@ -1817,6 +1720,38 @@ export default {
             this.zscurrentPage = index;
             this.zsShow();
         },
+        handleBeforeUpload() {
+            NProgress.start();
+        },
+        /**
+         * 上传视频成功
+         */
+        videoSuccess(res, file) {
+            NProgress.done();
+            this.$Message.success({
+                content: '上传视频成功',
+                duration: 3
+            })
+            this.formData.videoUrl = res.data;
+        },
+         /**
+         * 对上传的视频进行大小判断
+         */
+        handleMaxSize(file) {
+            this.$Message.error({
+                content: "上传的视频超出文件大小限制" ,
+                duration: 3
+            });
+        },
+        /**
+         * 对上传的视频进行格式判断
+         */
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title:  "视频格式不正确",
+                desc:'上传视频格式不正确，请选择AVI,mov,rmvb,rm,FLV,mp4,3GP其中一种格式'
+            });
+        },
         /**
          * 修改商品相关信息提交
          */
@@ -1841,6 +1776,7 @@ export default {
                     credential: this.formData.credential,
                     lwh_en: this.formData.lwh_en,
                     lwh: this.formData.lwh,
+                    video: this.formData.videoUrl,
                 },
                 success: res => {
                     let result = JSON.parse(res).errorcode;
@@ -2406,6 +2342,12 @@ export default {
             // this.uploadFiles.push({ name: res.name });
         },
         /**
+         * 查看商品大图
+         */
+        lookImage(row) {
+            window.open(`http://img.xmvogue.com/thumb/${row.item_no}.jpg?x-oss-process=style/800`)
+        },
+        /**
          *显示禁配地区编辑弹窗
         */
         areanameEdit(row) {
@@ -2550,7 +2492,7 @@ export default {
                         ele.display_flag === 1 ? true : false;
                         ele.heat === 1 ? true : false;  // 商品是否热销
                         ele.rec === '1' ? true : false;  // 商品是否推荐
-                        ele.hs_code = ele.hs_code ? ele.hs_code : '暂无'
+                        ele.hs_code = ele.hs_code ? ele.hs_code : '暂无'; 
                     });
                     this.tableData = result.data;
                     this.total = Number(result.total);
@@ -2612,6 +2554,7 @@ export default {
                 lwh_en: row.lwh_en,
                 model: row.model,
                 packaging: row.packaging,
+                videoUrl: row.video
             };
         },
         /**
