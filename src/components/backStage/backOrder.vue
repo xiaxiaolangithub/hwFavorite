@@ -460,7 +460,8 @@ export default {
             nocanData: [],
             // 是否显示导入海鼎订单编辑框
             isViewUp: false,
-            // 
+            // 导出时选择哪种语言
+            exportLang: 0,
 
             
         }
@@ -697,7 +698,7 @@ export default {
             this.rowNum = this.rowNumArr.join(',');
             switch(data) {
                 case 1:
-                    this.exportmore();
+                    this.confirm();
                     break;
                 case 2:
                     this.deleteCart();
@@ -722,6 +723,22 @@ export default {
                     this.setSupplement();
                     break;
             }
+        },
+        confirm () {
+            this.$Modal.confirm({
+                title: '温馨提示',
+                content: '<p>请选择订单导出语言</p>',
+                okText: '中文',
+                cancelText: '英文',
+                onOk: () => {
+                    this.exportLang = 0;
+                    this.exportmore();
+                },
+                onCancel: () => {
+                    this.exportLang = 1;
+                    this.exportmore();
+                }
+            });
         },
         /**
          * 多个订单设置新单
@@ -801,7 +818,7 @@ export default {
          * 多个订单勾选导出
          */
         exportmore() {
-            location.href = `http://order.xmvogue.com/word/public/index.php?s=/admin/dingdan/download_order&order=${this.rowNum}&lang=0`;
+            location.href = `http://order.xmvogue.com/word/public/index.php?s=/admin/dingdan/download_order&order=${this.rowNum}&lang=${this.exportLang}`;
         },
         /**
          *  订单导出生成购物车商品数量
@@ -918,7 +935,6 @@ export default {
                     this.getDetailData();
                 },
                 error: (res) => {
-                    console.log(res, 'res')
                 }
             })
         },
@@ -928,18 +944,6 @@ export default {
         isSearchGet() {
             this.formValidate.stime = changeTime(this.formValidate.dateRange[0]);
             this.formValidate.etime = changeTime(this.formValidate.dateRange[1]);
-            /* switch(this.formValidate.type) {
-                case 1:
-                    // 未确定订单
-                    this.formValidate.stime = changeTime(this.formValidate.dateRange[0]);
-                    this.formValidate.etime = changeTime(this.formValidate.dateRange[1]);
-                    break;
-                case 0:
-                    // 已确定订单
-                    this.formValidate.stime = changeTime(this.formValidate.dateRange[0]).replace(/-/g,'').replace(/:/g,'').replace(/ /g,'');
-                    this.formValidate.etime = changeTime(this.formValidate.dateRange[1]).replace(/-/g,'').replace(/:/g,'').replace(/ /g,'');
-                    break;
-            } */
             this.currentPage = 1;
             this.getOrderList();   // 列表状态
         },

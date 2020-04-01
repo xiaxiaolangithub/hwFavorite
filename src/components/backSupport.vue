@@ -13,7 +13,7 @@
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>
                         <FormItem class="code_img" prop="seccode">
-                            <Input class="input" v-model="loginForm.seccode" @on-blur="getSeccode"/>
+                            <Input class="input" v-model="loginForm.seccode" @on-blur="getSeccode" @on-enter="submit('loginForm')"/>
                             <div class="divIdentifyingCode" @click="getIdentifyingCode(true)">
                                 <img id="imgIdentifyingCode" alt="点击更换 !" title="点击更换 !" :src="imgSrc"/>
                             </div>
