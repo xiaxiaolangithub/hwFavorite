@@ -595,6 +595,7 @@ module.exports = {
         nowXj: '现总价',
         orgXj: '原总价',
         zeroChange: '加购的商品数量不能为0',
+        IllegalTips: '非法操作'
     },
     // 个人中心
     orderHomePage: {

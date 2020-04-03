@@ -26,7 +26,7 @@
                                 <img v-lazy="item.imgUrl" alt="" @click="goCorresGoods(item)">
                             </li>
                             <li style="width:100%;position:relative;padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
-                                <video :src="videoSrc" controls="controls" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%"></video>
+                                <video :src="videoSrc" id="videoPlay" preload="auto" ref="video" controls="controls" controlslist="nodownload" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%;object-fit:fill"></video>
                             </li>
                         </ul>
                     </div>
@@ -532,6 +532,7 @@ export default {
             this.isSwiperBottom = true;
             this.isSwiperRecodes = true;
         }, 500)
+        this.$refs.video["disablePictureInPicture"] = true;
     },
     created() {
         // firstPlayFlag用来判断私货提示框是否已提醒过（只能提醒一次），0表示未提醒过，1表示已提醒 

@@ -391,8 +391,6 @@ export default {
             noGoods: this.$t("cartPage.noGoods"),
             // 导入成功,棒棒哒
             guideTips: this.$t("cartPage.guideTips"),
-            // 导入的商品无数量填入
-            IllegalTips: this.$t("cartPage.IllegalTips"),
             // 导入的数量不是商品规格数，导入失败',
             importNum: this.$t("cartPage.importNum"),
             // 库存不足加购提示
@@ -774,9 +772,9 @@ export default {
                 this.isResult = false;
             }
         },
-        importArr(val, oldval) {
-            this.isShowFooter = val.length ? false : true;
-        },
+        // importArr(val, oldval) {
+        //     this.isShowFooter = val.length ? false : true;
+        // },
         payModel(val, oldval) {
             if (!val) {
                 this.payVal = 2;
@@ -1284,7 +1282,6 @@ export default {
             this.noCanData = [];
             this.importArr = [];
             this.isShowImport = false;
-            this.isShowFooter = false;
             this.arrExport = transformArrTo(
                 (this.importValue.trim()).replace(/[\r\n]/g, ",").split(",")
             );
@@ -1298,14 +1295,13 @@ export default {
                 if(ele[1]) {
                     arr3.push(ele.join(','))
                 } else {
-                    ele[0] !== "" && this.importArr.push({
+                    this.importArr.push({
                         code:  ele[0],
-                        tips: this.IllegalTips,
+                        tips: '商品无数量',
                         icon: "ios-close-circle-outline"
                     });
                     // 购物车商品不可以导入的数据
-                    ele[0] !== "" && this.noCanData.push(ele.join(','))
-                    
+                    this.noCanData.push(ele)
                 }
             })
             this.importValue = arr3.join('\n');
@@ -1316,8 +1312,9 @@ export default {
         * 导入购物车
         */
         importCart() {
-            this.isLoading=true;
             let item = {};
+            
+            
             // 分成数组500个这样去请求
             this.addNewArr()
             /* if(this.arrExport.length > 501) {
@@ -1345,6 +1342,7 @@ export default {
         },
         exportNew(data) {
             NProgress.start();
+            this.isLoading = true;
             this.$resetAjax({
                 type: "POST",
                 url: "/home/cart/cart_Import",
@@ -1353,7 +1351,6 @@ export default {
                 },
                 success: res => {
                     NProgress.done();
-                    this.isLoading = false;
                     this.isShowImport = false;
                     let result = JSON.parse(res);
                     result.forEach(ele => {
@@ -1432,7 +1429,11 @@ export default {
                         }
 
                     })
+                    console.log(this.canData.length, '可以导')
+                    console.log(this.noCanData.length, '不可以导')
+                    console.log(this.arrExport.length, '全部')
                     if(this.canData.length + this.noCanData.length === this.arrExport.length) {
+                        this.isLoading = false;
                         this.isResult = true;
                         NProgress.done();
                         switch(localStorage.langSelect) {
@@ -1515,6 +1516,7 @@ export default {
                     }
                     // 如果全部不能导入，就直接不去进行导入加入购物车操作
                     if(this.canData.length + this.noCanData.length === this.arrExport.length) {
+                        this.isLoading = false;
                         this.isResult = true;
                         switch(localStorage.langSelect) {
                             case "0" :
@@ -1627,6 +1629,7 @@ export default {
                     console.log(this.noCanData, '不可以导入的数据')
                     console.log(this.arrExport, '要导入的数据') */
                     if(this.canData.length + this.noCanData.length === this.arrExport.length) {
+                        this.isLoading = false;
                         this.isResult = true;
                         switch(localStorage.langSelect) {
                             case "0" :

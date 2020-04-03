@@ -603,6 +603,7 @@ module.exports = {
         nowXj: 'Sale Price',
         orgXj: 'Original Price',
         zeroChange: 'he quantity of additional purchase goods cannot be 0',
+        IllegalTips: 'Illegal operation'
     },
     // 个人中心
     orderHomePage: {
