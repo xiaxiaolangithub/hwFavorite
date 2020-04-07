@@ -4,7 +4,7 @@
     <div class="backSupport">
             <div class="content_inner">
                 <div class="login">
-                    <h3 class="sign">欢迎登录</h3>
+                    <h3 class="sign">国际订货后台系统</h3>
                     <Form ref="loginForm" :model="loginForm" :rules="ruleValidate" :label-width="20" class="loginForm">
                         <xmInput v-model="loginForm.mail" label="用户名" validateKey="mail" icon="icon-youxiang" />
                         <div class="passInput">
@@ -13,7 +13,7 @@
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>
                         <FormItem class="code_img" prop="seccode">
-                            <Input class="input" v-model="loginForm.seccode" @on-blur="getSeccode" @on-enter="submit('loginForm')"/>
+                            <Input class="input" v-model="loginForm.seccode" @keyup.enter.native="getSeccode"/>
                             <div class="divIdentifyingCode" @click="getIdentifyingCode(true)">
                                 <img id="imgIdentifyingCode" alt="点击更换 !" title="点击更换 !" :src="imgSrc"/>
                             </div>
@@ -72,31 +72,13 @@ import Footer from './footer.vue'
         }
     },
     mounted() {
-        // 查看用户是否登录
-        // this.isLogin();
         // 判断是否记住密码
         this.remeberBack();
         // 验证码图片出现   等待页面结构渲染完毕再进行渲染验证码图片
         this.getIdentifyingCode(true);
     },
    
-   
     methods: {
-        /**
-         * 查看用户是否登录
-         */
-        isLogin() {
-            this.$resetAjax({
-                type: 'GET',
-                url: '/admin/login/check_login',
-                success: (res) => {
-                    if(res === '1') {
-                        // 表示已经登录过，可以直接登录到页面里
-                        this.$router.push({path:'/backStage'})
-                    }
-                }
-            })
-        },
         /**
          * 判断是否记住密码
          */
@@ -131,7 +113,7 @@ import Footer from './footer.vue'
                 type: 'POST',
                 url: '/Home/Login/check',
                 data: { 
-                    code: this.loginForm.seccode, //验证码
+                    code: this.loginForm.seccode,           //验证码
                 },
                 success: (res) => {
                     let result = JSON.parse(res);
@@ -141,6 +123,7 @@ import Footer from './footer.vue'
                         if(location.href.includes('http://localhost')) {
                             // 本地代码走这步
                             this.$Message.error('验证码输入有误.');
+                            // this.submit('loginForm')
                             return false;
                         } else {
                             // 线上代码走这步
@@ -150,6 +133,7 @@ import Footer from './footer.vue'
                         return false;
                     } 
                     this.isGoSubmit = true;
+                    this.submit('loginForm')
                 }
             })
         },
@@ -160,13 +144,13 @@ import Footer from './footer.vue'
             this.$refs.loginForm.validate((valid) => {
                 if(location.href.includes('http://localhost')) {
                     // 本地代码走这步
-                    if (valid) {                       // 本地放开，线上注释
+                    if (valid) {                                // 本地放开，线上注释
                         this.loginIn();
                     }  
                     return false;
                 }
                 // 线上代码走这步
-                if(!this.isGoSubmit) {                    // 本地注释，线上放开
+                if(!this.isGoSubmit) {                          // 本地注释，线上放开
                     this.loginForm.seccode = '';
                     return false;
                 }
@@ -196,10 +180,9 @@ import Footer from './footer.vue'
                             localStorage.hdcode = data.hdcode;
                             localStorage.backName = data.name;
                             localStorage.group_id = data.group_id;
-                            localStorage.headerTitle = '';  // 页头点击的标题
-                            localStorage.currendIndx = -1;   // 后台导航栏左侧的选中index
-                            // 商品管理后台中是否有商品上线设置功能
-                            localStorage.role = data.group_id;
+                            localStorage.headerTitle = '';              // 页头点击的标题
+                            localStorage.currendIndx = -1;              // 后台导航栏左侧的选中index
+                            localStorage.role = data.group_id;           // 商品管理后台中是否有商品上线设置功能
                             // 判断是否记住密码
                             if(this.backRember) {
                                 localStorage.remBack = true;

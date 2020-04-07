@@ -91,7 +91,6 @@ export default {
         }
     },
     created() {
-        console.log(this.isOpenIcon)
         Bus.$on('msg', (e) => {
             localStorage.headerTitle = e;
             this.headerTitle = localStorage.headerTitle;        // 接收兄弟组件之间传值
@@ -233,6 +232,10 @@ export default {
                             localStorage.userBack = '';
                             localStorage.passBack = '';
                         }
+                        this.$Message.success({
+                            content: '退出登录成功',
+                            duration: 1500
+                        });
                         setTimeout(() => {
                             this.$router.push('/backSupport');
                             this.$nextTick(() => {

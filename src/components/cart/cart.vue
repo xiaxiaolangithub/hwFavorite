@@ -211,7 +211,7 @@
                 </li>
             </ul>
             <div class="export_loading" v-if="isLoading">
-                <img src='http://hbimg.b0.upaiyun.com/b9dbc34d699a2eb32c54283812cf9d5b4f936d2572f0f-pUsofd_fw658' />
+                <img src='http://www.lgpc.com.cn/1/img/time.gif' />
                 <span>{{i18n.exportLoading}}</span>
             </div>
             <!-- <div class="export_result" v-if="isResult">

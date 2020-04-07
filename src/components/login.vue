@@ -27,7 +27,7 @@
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>
                         <FormItem class="code_img" prop="seccode">
-                            <Input class="input" v-model="loginForm.seccode" @on-blur="getSeccode"  @on-enter="submit('loginForm')"/>
+                            <Input class="input" v-model="loginForm.seccode" @keyup.enter.native="getSeccode"/>
                             <div class="divIdentifyingCode" @click="getIdentifyingCode(true)">
                                 <img id="imgIdentifyingCode" :alt="i18n.changeClick" :title="i18n.changeClick" :src="imgSrc"/>
                             </div>
@@ -177,30 +177,12 @@ import Footer from './footer.vue'
         this.getIdentifyingCode(true);
     },
     created() {
-        // 查看用户是否登录
-        // this.isLogin();
         // 判断是否记住密码
         this.remeberPass();
         // 判断选中哪个语言
         this.judgeSelect();
     },
     methods: {
-        /**
-         * 查看用户是否登录
-         */
-       /*  isLogin() {
-            this.$resetAjax({
-                type: 'GET',
-                url: '/home/login/check_login',
-                success: (res) => {
-                    debugger
-                    if(res === '1') {
-                        // 表示已经登录过，可以直接登录到页面里
-                        this.$router.push({path:'/enter'})
-                    }
-                }
-            })
-        }, */
         /**
          * 站点选择
          */
@@ -263,16 +245,6 @@ import Footer from './footer.vue'
                     break;
                 
             }
-            /* this.$resetAjax({
-                type: 'POST',
-                url: '/Admin/Lang/clang',
-                data: { 
-                    type: this.langSelect,
-                },
-                success: (res) => {
-                    let result = JSON.parse(res);
-                }
-            }) */
         },
        /**
          * 窗口代码
@@ -317,6 +289,7 @@ import Footer from './footer.vue'
                                 content: this.seccodeerror,
                                 duration: 2
                             });
+                            // this.submit('loginForm')
                             return false;
                         }
                         this.$Message.error({
@@ -327,6 +300,7 @@ import Footer from './footer.vue'
                         return false;
                     }
                     this.isGoSubmit = true;
+                    this.submit('loginForm')
                 }
             })
         },
@@ -336,16 +310,16 @@ import Footer from './footer.vue'
         submit(loginForm) {
             this.$refs.loginForm.validate((valid) => {
                 if(location.href.includes('http://localhost')) {
-                    if (valid) {                  // 本地放开，线上注释
+                    if (valid) {                        // 本地放开，线上注释
                         this.loginIn();
                     } 
                     return false;
                 }
-                if(!this.isGoSubmit) {             // 本地注释，线上放开
+                if(!this.isGoSubmit) {                  // 本地注释，线上放开
                     this.loginForm.seccode = ''; 
                     return false;
                 }
-                if (valid && this.isGoSubmit) {              // 本地注释，线上放开
+                if (valid && this.isGoSubmit) {         // 本地注释，线上放开
                     this.loginIn();
                 } 
             })
