@@ -27,7 +27,7 @@
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>
                         <FormItem class="code_img" prop="seccode">
-                            <Input class="input" v-model="loginForm.seccode" @keyup.enter.native="getSeccode"/>
+                            <Input class="input" v-model="loginForm.seccode" @keyup.enter.native="getSeccode" @on-blur="getSeccode"/>
                             <div class="divIdentifyingCode" @click="getIdentifyingCode(true)">
                                 <img id="imgIdentifyingCode" :alt="i18n.changeClick" :title="i18n.changeClick" :src="imgSrc"/>
                             </div>
