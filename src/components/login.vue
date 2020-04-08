@@ -131,6 +131,7 @@ import Footer from './footer.vue'
             isGoSubmit: false,
             // 是否记住密码
             remeberValue: false,
+            isCheckYzm: false,
         }
     },
      computed:{
@@ -273,6 +274,14 @@ import Footer from './footer.vue'
          * 判断是否验证
          */
         getSeccode() {
+            if (this.isCheckYzm) {
+                return false;
+            }
+            this.isCheckYzm = true;
+            // 3s内不再执行下面函数
+            setTimeout(() => {
+                this.isCheckYzm = false;
+            }, 3000)
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Login/check',
@@ -289,7 +298,7 @@ import Footer from './footer.vue'
                                 content: this.seccodeerror,
                                 duration: 2
                             });
-                            // this.submit('loginForm')
+                            this.submit('loginForm')
                             return false;
                         }
                         this.$Message.error({
@@ -300,7 +309,7 @@ import Footer from './footer.vue'
                         return false;
                     }
                     this.isGoSubmit = true;
-                    this.submit('loginForm')
+                    this.submit('loginForm');
                 }
             })
         },

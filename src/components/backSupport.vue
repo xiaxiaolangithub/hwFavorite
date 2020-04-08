@@ -69,6 +69,7 @@ import Footer from './footer.vue'
             isGoSubmit: false,
             // 是否记住密码
             backRember: false,
+            isCheckYzm: false,
         }
     },
     mounted() {
@@ -109,6 +110,14 @@ import Footer from './footer.vue'
          * 判断是否验证
          */
         getSeccode() {
+            if (this.isCheckYzm) {
+                return false;
+            }
+            this.isCheckYzm = true;
+            // 3s内不再执行下面函数
+            setTimeout(() => {
+                this.isCheckYzm = false;
+            }, 3000)
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Login/check',
@@ -123,8 +132,7 @@ import Footer from './footer.vue'
                         if(location.href.includes('http://localhost')) {
                             // 本地代码走这步
                             this.$Message.error('验证码输入有误.');
-                            // this.submit('loginForm')
-                            return false;
+                            this.submit('loginForm')
                         } else {
                             // 线上代码走这步
                             this.$Message.error('验证码输入有误.');
