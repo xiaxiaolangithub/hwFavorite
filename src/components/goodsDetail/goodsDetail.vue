@@ -21,9 +21,12 @@
                     <!-- <img  v-lazy="imgSrc" alt="" @error="defImg()"> -->
                 </div>
                 <!-- 视频加载失败且不是预售商品都不能显示商品视频 -->
-                <div v-show="!isVideo && advance !=='1'" class="video_left">
-                    <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"></video-player>
+                <div class="video_left" v-show="!isVideo && advance !=='1'" style="position:relative;/*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
+                    <video :src="videoUrl" preload="auto" :poster="imgSrc" ref="video" controls="controls" controlslist="nodownload"  style="position: absolute;top:0;left: 0;width: 100%;height: 100%;object-fit:fill"></video>
                 </div>
+                <!-- <div v-show="!isVideo && advance !=='1'" class="video_left">
+                    <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"></video-player>
+                </div> -->
                 <div class="pro_right">
                     <h3 class="pro_name">
                         {{item_name}}
@@ -176,9 +179,12 @@
                                 <span>{{notes}}</span>
                             </li>
                         </ul>
-                        <div class="detail_video" v-show="isVideoDetail">
-                            <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="detailOptions"></video-player>
+                        <div class="detail_video" v-show="isVideoDetail" style="position:relative;padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
+                            <video :src="detailVideoUrl" :poster="imgSrc" ref="video2" controls preload controlslist="nodownload" style="position: absolute;top:0;left: 0;width: 100%;height: 100%;object-fit:fill"></video>
                         </div>
+                        <!-- <div class="detail_video" v-show="isVideoDetail">
+                            <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="detailOptions"></video-player>
+                        </div> -->
                         <img v-lazy="DetailImgUrl" alt="" @error="defImg()" style="width:800px;">
                     </div>
                     <div class="relation" v-if="relationData.length">
@@ -442,6 +448,8 @@ export default {
             },
             // 是否显示详情视频
             isVideoDetail: false,
+            // 详情视频地址
+            detailVideoUrl: '',
         }
     },
 
@@ -465,6 +473,9 @@ export default {
         }
     },
     mounted() {
+        // 禁止视频画中画、下载功能
+        this.$refs.video["disablePictureInPicture"] = true;
+        this.$refs.video2["disablePictureInPicture"] = true;
         window.addEventListener("scroll", this.btn_pos);
     },
     methods: {
@@ -772,6 +783,7 @@ export default {
             };
             this.playerOptions.poster = info.img;
             if(info.video) {
+                this.detailVideoUrl = info.video;
                 this.detailOptions['sources'][0]['src'] = info.video;
                 this.isVideoDetail = true;
             } else {

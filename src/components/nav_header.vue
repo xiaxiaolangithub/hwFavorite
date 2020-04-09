@@ -81,7 +81,6 @@ export default {
             loginOutTip: this.$t('backHeaderPage').loginOutTip,
             // 是否是全屏显示
             fullscreen: false
-
         }
     },
     
@@ -212,7 +211,6 @@ export default {
                 url: `/admin/Login/logout`,
                 data: {
                     hdcode: localStorage.hdcode,
-
                 },
                 success: (res) => {
                     let result = JSON.parse(res);
@@ -249,5 +247,3 @@ export default {
     }
 }
 </script>
-
-

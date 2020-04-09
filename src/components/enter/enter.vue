@@ -532,6 +532,7 @@ export default {
             this.isSwiperBottom = true;
             this.isSwiperRecodes = true;
         }, 500)
+        // 禁止视频画中画、下载功能
         this.$refs.video["disablePictureInPicture"] = true;
     },
     created() {

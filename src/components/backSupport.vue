@@ -188,7 +188,7 @@ import Footer from './footer.vue'
                             localStorage.hdcode = data.hdcode;
                             localStorage.backName = data.name;
                             localStorage.group_id = data.group_id;
-                            localStorage.headerTitle = '';              // 页头点击的标题
+                            // localStorage.headerTitle = [];              // 页头点击的标题
                             localStorage.currendIndx = -1;              // 后台导航栏左侧的选中index
                             localStorage.role = data.group_id;           // 商品管理后台中是否有商品上线设置功能
                             // 判断是否记住密码

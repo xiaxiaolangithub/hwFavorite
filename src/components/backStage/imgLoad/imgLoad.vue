@@ -2,15 +2,15 @@
 <template>
     <div class="imgLoadPage">
         <div class="top">
-            温馨提示：在下方左侧的空白文本框中输入订单，一行一个订单号进行回车输入，最后再点击查看按钮，便可以在下方右侧查看订单图片地址。
+            温馨提示：请先在下方左侧的空白文本框中输入<span>订单号（例如：151111586397354299w）</span>，一行一个订单号进行回车输入，然后再点击查看按钮，便可以在下方右侧查看订单图片地址。
         </div>
         <div class="middle">
             <div class="left">
-                <Input v-model="value" type="textarea" placeholder="请输入订单号，一行一个订单号" />
+                <Input v-model="value" type="textarea" placeholder="请在此输入订单号，一行一个订单号" />
                 <Button type="primary" @click="lookUP">查看</Button>
             </div>
             <div class="right">
-                <Input v-model="url" type="textarea" placeholder="请在左侧输入订单号点击查看按钮，方可在此处查看到订单图片地址" />
+                <Input v-model="url" type="textarea" placeholder="请先在左侧输入订单号点击查看按钮，方可在此处查看到订单图片地址" />
             </div>
         </div>
 

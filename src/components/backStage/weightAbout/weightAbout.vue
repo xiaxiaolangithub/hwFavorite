@@ -1,10 +1,10 @@
 <template>
     <div class="weightPage">
         <div class="top">
-            温馨提示：在下面的空白文本框中输入商品编码，一行一个商品编码进行回车输入，最后再点击导出按钮，便可以进行商品海关编码、重量、材质三项属性导出。
+            温馨提示：请先在下面的空白文本框中输入<span>商品条码（例如：6941406875622）</span>，一行一个商品条码进行回车输入，然后再点击导出按钮，便可以进行商品海关条码、商品重量、商品材质三项属性导出。
         </div>
         <div class="middle">
-            <Input v-model="value" type="textarea" placeholder="请输入商品编码，一行一个编码" />
+            <Input v-model="value" type="textarea" placeholder="请输入商品条码，一行一个条码" />
             <Button type="primary" @click="exportWeight">导出</Button>
         </div>
     </div>
