@@ -29,10 +29,9 @@
                         <FormItem label="货号" prop="no" label-position="top">
                             <Input v-model="formData.no" placeholder="请输入货号" />
                         </FormItem>
-                        <FormItem label="时间起始" prop="time2" label-position="top">
-                            <DatePicker v-model="formData.time2" format="yyyy-MM-dd" type="daterange" :options="options" placement="bottom-end" placeholder="请选择时间" style="width: 360px" @on-change="changeDateRange2"></DatePicker>
+                        <FormItem label="时间起始" prop="time2" label-position="top" class="discount_item">
+                            <DatePicker v-model="formData.time2" format="yyyy-MM-dd" type="daterange" :options="options" placement="bottom-end" placeholder="请选择时间" @on-change="changeDateRange2"></DatePicker>
                         </FormItem>
-
                         <FormItem label="折扣价格" prop="discount" label-position="top" class="discount_item">
                             <InputNumber  :min="0.1" v-model="formData.discount" placeholder="请输入折扣价格"></InputNumber>
                         </FormItem>
