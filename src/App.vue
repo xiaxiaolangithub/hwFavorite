@@ -24,32 +24,10 @@ export default {
 		}
 	},
 	created() {
-        // 查看用户是否登录
-        // this.isLogin();
+        
 	},
 	
 	methods: {
-         /**
-         * 查看用户是否登录
-         */
-        /*isLogin() {
-            this.$resetAjax({
-                type: 'GET',
-                url: '/home/login/check_login',
-                success: (res) => {
-                    if(res === '1') {
-                        if(location.href.includes('backStage')) {
-                            this.$router.push({path:'/backStage'})
-                            // location.href = 'http://order.xmvogue.com/main.html#/backSupport'  // 线上放开
-                        } else{
-                            // 表示已经登录过，可以直接登录到页面里
-                            this.$router.push({path:'/enter'})
-                            // location.href = 'http://order.xmvogue.com/main.html#/login'  // 线上放开
-                        }
-                    }
-                }
-            })
-        }, */
 		reload() {
 			this.isRouterAlive = false;
 			this.$nextTick(function () {
