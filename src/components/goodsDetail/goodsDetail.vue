@@ -17,7 +17,7 @@
             <div class="detail_inner">
                 <div class="pro_left summary" ref="box" v-show="isVideo">
                     <!-- scroll 放大时页面是否可滚动  淘宝放大镜插件-->
-                    <pic-zoom :url="imgSrc" :scale="3" scroll show-edit></pic-zoom>
+                    <pic-zoom :url="imgSrc" :scale="3" scroll show-edit @click.native="isShow=true"></pic-zoom>
                     <!-- <img  v-lazy="imgSrc" alt="" @error="defImg()"> -->
                 </div>
                 <!-- 视频加载失败且不是预售商品都不能显示商品视频 object-fit:fill-->
@@ -247,6 +247,9 @@
 
             </div>
         </div>
+        <Modal v-model="isShow" :title="i18n.imgTitle" @on-cancel="isShow=false;" class="modal_big_click">
+           <img :src="imgSrc" width="800px"/>
+        </Modal>
     </div>
 </template>
 
@@ -264,6 +267,8 @@ export default {
     },
     data() {
         return {
+            // 是否显示图片
+            isShow: false,
             // 当前商品货号
             radio0: "",
             radio1: "",

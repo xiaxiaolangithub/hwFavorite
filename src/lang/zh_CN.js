@@ -463,6 +463,7 @@ module.exports = {
         preColsed: '预售结束',
         deadlineTime: '截止时间',
         cycleTime: '生产周期',
+        imgTitle: '图片',
     },
     // 购物车
     cartPage: {

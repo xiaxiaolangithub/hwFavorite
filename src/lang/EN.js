@@ -471,6 +471,7 @@ module.exports = {
         preColsed: 'Pre-orders Closed.',
         deadlineTime: 'Pre-Ordering Deadline',
         cycleTime: 'Manufacturing Lead Time',
+        imgTitle: 'Picture',
     },
     // 购物车
     cartPage: {
