@@ -322,8 +322,8 @@ export default {
             this.formData.time2 = [changeTime(row.stime), changeTime(row.etime)];
             this.value3 = true;
             this.formData.no = row.item_no;
-            this.formData.discount = row.discount;
-            this.formData.rate = row.rate;
+            this.formData.discount = Number(row.discount);
+            this.formData.rate = Number(row.rate);
             this.activeId = row.d_id;
         },
         /**

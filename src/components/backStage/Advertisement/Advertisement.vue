@@ -186,8 +186,8 @@ export default {
                     render:(h, {row}) => {
                         return (
                             <div>
-                                {row.position === "7" && <video src={row.link} controls="controls" style="height: 100px;margin-top: 5px;"></video>}
-                                {row.position !== "7" && <img src={row.link} style="height: 100px;margin-top: 5px;" />}
+                                {row.position === "7" && <video src={row.link} controls="controls" style="width: 150px;margin-top: 5px;"></video>}
+                                {row.position !== "7" && <img src={row.link} style="width: 150px;margin-top: 5px;" />}
                             </div>
                         )
                     },

@@ -26,7 +26,7 @@
                                 <img v-lazy="item.imgUrl" alt="" @click="goCorresGoods(item)">
                             </li>
                             <li style="width:100%;position:relative;padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
-                                <video :src="videoSrc" id="videoPlay" preload="auto" ref="video" controls="controls" controlslist="nodownload" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%;outline: none;"></video>
+                                <video :src="videoSrc" id="videoPlay" preload="auto" ref="video" controls="controls" controlslist="nodownload" autoplay="autoplay" style="position: absolute;top:0;left: 0;width: 100%;height: 100%;object-fit:fill;outline: none;"></video>
                             </li>
                         </ul>
                     </div>
