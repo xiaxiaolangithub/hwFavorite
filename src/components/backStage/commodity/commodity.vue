@@ -405,10 +405,11 @@
                         </FormItem>
                     </i-Col>
                     <i-Col span="24">
-                        <Table border ref="selection" :columns="columnsSynch" :data="synchroList" class="related_table" @on-selection-change="changeSynchro"></Table>
+                        <Table border ref="selection" :columns="columnsSynch" :height="syncHeight" :data="synchroList" class="related_table" @on-selection-change="changeSynchro"></Table>
                     </i-Col>
                 </Row>
             </Form>
+            <Page :total="syncTotal" show-total :current="syncPage" :page-size="50" @on-change="syncPageChange" class="sync_page"/>
             <div class="demo-drawer-footer">
                 <Button style="margin-right: 8px" @click="isShowSynch=false;">取消</Button>
                 <Button type="primary" @click="submitJudge">提交</Button>
@@ -493,6 +494,11 @@ export default {
             isShowSynch:false,
             // 导入时返回的商品数组
             synchroList: [],
+            // 导入的页码
+            syncPage: 1,
+            // 导入商品的总页码数
+            syncTotal: 0,
+            syncHeight: 500,
             // 导入时产品表单
             columnsSynch: [
                 {
@@ -1223,12 +1229,13 @@ export default {
             // 得到浏览器内容高度
             let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
             this.tableHeight = windowHeight - 240;
+            this.syncHeight = windowHeight - 240;
         }, 100);
         // 调整浏览器的时候
         $(window).on("resize", () => {
-            let windowHeight =
-                document.documentElement.clientHeight || document.body.clientHeight;
+            let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
             this.tableHeight = windowHeight - 240;
+            this.syncHeight = windowHeight - 240;
         });
     },
     created() {
@@ -1386,22 +1393,35 @@ export default {
          * 得到导入的商品数据
          */
         getImprotData() {
+            NProgress.start(); // 进度条开始
             this.isShowSynch = true;
             this.synchroList = [];
             this.$resetAjax({
                 type: "POST",
                 url: "/admin/Cngoods/index",
+                data: {
+                    page: this.syncPage,        // 页码
+                },
                 success: (res) => {
+                    NProgress.done(); // 进度条开始
                     let result = JSON.parse(res)
-                    result.forEach(ele => {
+                    result.list.forEach(ele => {
                         ele.imgUrl = `http://img.xmvogue.com/thumb/${ele.ITEM_NO}.jpg?x-oss-process=style/80`;
                         ele.cls = '';
                         ele.clsName = '暂无';
                         ele._checked = false;
                     })
-                    this.synchroList = result;
+                    this.synchroList = result.list;
+                    this.syncTotal = Number(result.length);
                 }    
             });
+        },
+        /**
+         * 导入的商品数据分页
+         */
+        syncPageChange(index) {
+            this.syncPage = index;
+            this.getImprotData();
         },
         /**
          * 同步海鼎数据

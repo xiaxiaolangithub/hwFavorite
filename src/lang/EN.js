@@ -63,14 +63,14 @@ module.exports = {
             //     name:'Replenishment by store sales',
             //     value: 4
             // }, 
-            {
+            /* {
                 name:'70% Off Clearance',
                 value: 'C'
             },   
             {
                 name:'90% Off Clearance',
                 value:'D'
-            },
+            }, */
             {
                 name:'1 Unit (Min. Order)',
                 value:'E'
@@ -144,7 +144,8 @@ module.exports = {
                 label: 'Headset'
             },
         ],
-        helloContent: 'Hello!'
+        helloContent: 'Hello!',
+        discountName: 'Discount Section'
     },
     // 登录页面
     loginPage: {
@@ -265,8 +266,8 @@ module.exports = {
     // 商品列表页
     typeListPage: {
         home: 'Home Page',
-        unit: 'Purchase Price:',
-        export: 'Retail Price:',
+        unit: 'Purchase Price：',
+        export: 'Retail Price：',
         addCart: 'Add to Cart',
         addSuccTip: 'Item added to your cart!',
         adderrTip: 'Sorry, not enough inventory in stock. Failed to add to cart.',
@@ -472,6 +473,7 @@ module.exports = {
         deadlineTime: 'Pre-Ordering Deadline',
         cycleTime: 'Manufacturing Lead Time',
         imgTitle: 'Picture',
+        discount: 'Sale Price'
     },
     // 购物车
     cartPage: {

@@ -97,7 +97,10 @@
                                     <a>{{item.item_name}}</a>
                                 </div>
                                 <div class="prod_price">
-                                    <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
+                                    <p class="unit">{{i18n.unit}}
+                                        <span v-show="item.discount">￥{{item.discount}}</span>
+                                        <span :class="typeValue === 'D' ? 'baseLine' : ''">￥{{item.base_price}}</span>
+                                    </p>
                                     <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
                                 </div>
                                 <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)" class="change_num"></addCartPrice>
@@ -106,7 +109,7 @@
                                     <span v-show="!item.isAddShow" style="color:#ed4014;font-size:15px;"><Icon type="md-flash" />{{i18n.Shortage}}</span>
                                     <a class="add_handle" v-show="item.isAddShow">
                                         <span @click="addShop(item)" class="add_shop">{{i18n.addCart}} </span>
-                                        <span :title="i18n.cnumTips" class="cnum_tips" :style="item.cnum === 0 ? 'color:#333' : 'color:#dd0017'">[ {{item.cnum}} ]</span>
+                                        <span :title="i18n.cnumTips" class="cnum_tips" :style="item.cnum === 0 ? 'color:#333' : 'color:#D92524'">[ {{item.cnum}} ]</span>
                                         <Icon type="md-trash" size="24" v-show="item.cnum !== 0" class="trash" @click="delCart(item)" :title="i18n.delTips" />
                                         <!-- <span :title="i18n.cnumTips" class="cnum_tips">[ {{item.cnum}} ]</span>
                                         <Poptip
@@ -241,6 +244,8 @@ export default {
             price_max:'',
             // 加购的规格不是倍数
             mastSpec:this.$t('searchPage.mastSpec'),
+            // 打折商品折扣
+            discountID: '',
         }
     },
 
@@ -350,7 +355,8 @@ export default {
         getUrlParams() {
             this.urlParams = getUrlParams(); 
             this.keyword = this.urlParams.keyword;
-            this.typeValue = this.urlParams.select;
+            this.typeValue = this.urlParams.select;  
+            this.discountID = this.typeValue === 'D' ? this.urlParams.discount : '';
             NProgress.start();  // 进度条开始
             this.isShowEmpty = false;
             this.currentPage = 1;
@@ -964,25 +970,14 @@ export default {
                 }
                 case "3": {
                     // 1折优惠、三折优惠
-                    if(disNum === 1) {
-                        data = {
-                            page: this.currentPage,
-                            lang: localStorage.langSelect,
-                            off: 1,
-                            price_min: this.price_min,  // 最小价格
-                            price_max: this.price_max,  // 最大价格
-                            type:type  // 接口类型，商品分类的接口
-                        }  
-                    } else{
-                        data = {
-                            page: this.currentPage,
-                            lang: localStorage.langSelect,
-                            off: 3,
-                            price_min: this.price_min,  // 最小价格
-                            price_max: this.price_max,  // 最大价格
-                            type:type  // 接口类型，商品分类的接口
-                        }
-                    }
+                    data = {
+                        page: this.currentPage,
+                        lang: localStorage.langSelect,
+                        off: Number(this.discountID),
+                        price_min: this.price_min,  // 最小价格
+                        price_max: this.price_max,  // 最大价格
+                        type:type  // 接口类型，商品分类的接口
+                    }  
                     break;
                 }
                 case "4": {
@@ -1148,13 +1143,13 @@ export default {
                     break;
                 case 'D':
                     // 1折特价清仓(不退换)
-                    if(localStorage.langSelect === '0') {
+                    /* if(localStorage.langSelect === '0') {
                         this.keyword = '1折特价清仓(不退换)'
                     } else {
                         this.keyword = '90% Off Clearance'
-                    }
+                    } */
                     this.isPageShow = true;
-                    this.sameQuery('3',1);
+                    this.sameQuery('3', this.discountID);
                     break;
                 case 'E':
                     // 一件起订

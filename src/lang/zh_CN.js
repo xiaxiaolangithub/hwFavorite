@@ -55,14 +55,14 @@ module.exports = {
             //     name:'按店铺销售补货',
             //     value: 4
             // },  
-            {
+            /* {
                 name:'3折特价清仓(不退换)',
                 value: 'C'
             },
             {
                 name:'1折特价清仓(不退换)',
                 value: 'D'
-            },   
+            },  */  
             {
                 name:'一件起订',
                 value: 'E'
@@ -136,7 +136,8 @@ module.exports = {
                 label: '耳机'
             },
         ],
-        helloContent: '您好!'
+        helloContent: '您好!',
+        discountName: '秒抢折扣'
     },
     // 登录页面
     loginPage: {
@@ -464,6 +465,7 @@ module.exports = {
         deadlineTime: '截止时间',
         cycleTime: '生产周期',
         imgTitle: '图片',
+        discount: '折扣价'
     },
     // 购物车
     cartPage: {

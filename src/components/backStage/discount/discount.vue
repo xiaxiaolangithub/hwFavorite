@@ -2,7 +2,11 @@
     <div class="disPage">
         <div class="top">
             <div class="top_left">
-                <p @click="show">新增</p>
+                <p @click="show" title="新增折扣商品">新增</p>
+                <Upload :action="action" :format="['xls','xlsx']" :before-upload="beforeUpload" :on-format-error="formatError" :on-success="upLoadSuccess" :show-upload-list="false">
+                    <Button title="折扣商品上传">导入</Button>
+                </Upload>
+                <p @click="moreDelete" title="批量删除">批量删除</p>
             </div>
             <div class="top_select">
                 <div class="item">
@@ -17,7 +21,7 @@
             </div>
         </div>
         <div class="table">
-            <Table border :height="tableHeight" :columns="columns" :data="tableData"></Table>
+            <Table border :height="tableHeight" :columns="columns" :data="tableData" @on-selection-change="selectionTable"></Table>
         </div>
         <div class="pageContanier">
             <Page :total="total" :page-size="pageSize" :current="currentPage" @on-change="changePage" show-elevator show-total></Page>
@@ -27,7 +31,16 @@
                 <Row :gutter="32">
                     <i-Col span="24">
                         <FormItem label="货号" prop="no" label-position="top">
-                            <Input v-model="formData.no" placeholder="请输入货号" />
+                            <Input v-model="formData.no" placeholder="请输入货号" :disabled="titleName==='编辑'"/>
+                        </FormItem>
+                        <FormItem label="中文名" prop="item_name" label-position="top"  v-show="titleName==='编辑'">
+                            <Input v-model="formData.item_name" :disabled="titleName==='编辑'"/>
+                        </FormItem>
+                        <FormItem label="英文名" prop="item_en" label-position="top"  v-show="titleName==='编辑'">
+                            <Input v-model="formData.item_en" :disabled="titleName==='编辑'"/>
+                        </FormItem>
+                        <FormItem label="进价" prop="base_price" label-position="top"  v-show="titleName==='编辑'">
+                            <Input v-model="formData.base_price" :disabled="titleName==='编辑'"/>
                         </FormItem>
                         <FormItem label="时间起始" prop="time2" label-position="top" class="discount_item">
                             <DatePicker v-model="formData.time2" format="yyyy-MM-dd" type="daterange" :options="options" placement="bottom-end" placeholder="请选择时间" @on-change="changeDateRange2"></DatePicker>
@@ -35,8 +48,9 @@
                         <FormItem label="折扣价格" prop="discount" label-position="top" class="discount_item">
                             <InputNumber  :min="0.1" v-model="formData.discount" placeholder="请输入折扣价格"></InputNumber>
                         </FormItem>
-                        <FormItem label="折扣力度" prop="rate" label-position="top">
-                            <Input v-model="formData.rate" placeholder="请输入折扣力度" />
+                        <FormItem label="折扣力度【提示：输入1表示当前商品1折促销】" prop="rate" label-position="top" class="discount_item">
+                            <!-- <InputNumber  :min="1"  :max="9.9" v-model="formData.rate" placeholder="请输入折扣力度"></InputNumber> -->
+                            <Input number clearable v-model="formData.rate" placeholder="请输入折扣力度" />
                         </FormItem>
                     </i-Col>
                 </Row>
@@ -56,7 +70,16 @@ import NProgress from "nprogress"; // 引入进度条
 import "nprogress/nprogress.css"; // 引入进度条
 export default {
   data() {
+    const validateRate = (rule, vaule, callback) => {
+        if(value % 1 != 0) {
+            callback(new Error('请输入整数'))
+        } else{
+            callback();
+        }
+    }
     return {
+        // 折扣商品上传地址
+        action: 'http://order.xmvogue.com/word/public/index.php?s=admin/zhekou/upload',
         // 用户名查询
         user: "",
         // 商品总数
@@ -96,14 +119,19 @@ export default {
         //   表单数据
         formData: {
             no: "",
-            discount: 0.1,
+            discount: 1,
             rate: "",
             time2: [],
         },
         //   验证
         ruleValidate: {
             no: [  { required: true, message: "请输入货号", trigger: "blur" }], 
-            rate: [ { required: true, message: "请输入折扣力度", trigger: "blur" } ],
+            rate: [ 
+                { required: true, type:'number', message: "请输入折扣力度（整数）", trigger: "change" },
+                {type: 'number', message: '请输入整数', trigger: 'blulr', transform(value) {
+                    return Number(value)
+                }, validator: validateRate}
+            ],
             time2: [ {
                     type: 'array',  required: true,  fields: {
                         0: {required: true, message: '时间不能为空', trigger: 'change', pattern: /.+/},
@@ -119,19 +147,40 @@ export default {
         // 表头
         columns: [
             {
+                type: 'selection',
+                width: 60,
+                align: 'center'
+            },
+            {
                 title: "货号",
                 align: "center",
                 key: "item_no"
             },
-
             {
                 title: "名称",
                 align: "center",
-                key: "item_name"
+                key: "item_name",
+                width: 350,
+                render: (h, { row }) => {
+                    return (
+                        <div>
+                            <p>{row.item_name}</p>
+                            <p>{row.item_en}</p>
+                        </div>
+                    );
+                }
             },
-
             {
-                title: "售价",
+                title: "图片",
+                align: "center",
+                key: "imgUrl",
+                align: 'center',
+                render: (h, { row }) => {
+                    return (<img v-lazy={row.imgUrl} onClick={() => this.CheckImage(row.item_no)} title="点击查看商品大图" style="width:80px;cursor:pointer;padding-top:5px;"/>);
+                }
+            },
+            {
+                title: "进价",
                 align: "center",
                 key: "base_price"
             },
@@ -148,12 +197,14 @@ export default {
             {
                 title: "开始时间",
                 align: "center",
-                key: "stime"
+                key: "stime",
+                width: 180,
             },
             {
                 title: "结束时间",
                 align: "center",
-                key: "etime"
+                key: "etime",
+                width: 180,
             },
             {
                 title: "操作",
@@ -200,7 +251,8 @@ export default {
                             },
                             on: {
                                 "on-ok": () => {
-                                    this.delDis(row);
+                                    this.idStr = rwo.d_id;
+                                    this.delDis();
                                 },
                                 "on-cancel": () => {
                                     // 取消删除
@@ -222,7 +274,9 @@ export default {
                     ]);
                 }
             }
-        ]
+        ],
+        // 多项折扣商品的id
+        idStr: '',
     };
   },
     mounted() {
@@ -251,11 +305,58 @@ export default {
                     discount: 0.1,
                     rate: "",
                     time2: [],
+                    item_en: '',
+                    item_name: '',
+                    base_price: '',
                 }
             }
         }
     },
     methods: {
+        /**
+         * 批量折扣商品导入前
+         */
+        beforeUpload() {
+            NProgress.start();
+        },
+        selectionTable(selection) {
+            let arr = selection.map(ele => {return ele.d_id})
+            this.idStr = arr.join(',');
+        },
+        /**
+         * 多项删除准备
+         */
+        moreDelete() {
+            if(this.idStr.length === 0) {
+                this.$Message.warning({
+                    content: "请先勾选要删除的商品。",
+                    duration: 3
+                })
+                return false;
+            }
+            this.delDis();
+        },
+        /**
+         * 上传文件格式判断
+         */
+        formatError(res) {
+            NProgress.done();
+            this.$Message.error({
+                content: "抱歉，上传文件格式不对,只支持xls、xlsx后缀文件",
+                duration: 3
+            });
+        },
+        /**
+         * 上传成功文件
+         */
+        upLoadSuccess(res) {
+            NProgress.done();
+            this.$Message.success({
+                content: "商品导入成功。",
+                duration: 3
+            });
+            this.loadData();
+        },
         // 打开侧边栏
         show() {
             this.value3 = true;
@@ -263,6 +364,13 @@ export default {
             this.checkAll = false;
             this.ruleValue = [];
             this.status = 1;
+            this.titleName = "新增";
+        },
+        /**
+         * 商品导入
+         */
+        importHandle() {
+
         },
         // 获取商品列表
         loadData() {
@@ -288,10 +396,19 @@ export default {
                 success: res => {
                     NProgress.done(); // 进度条结束
                     let result = JSON.parse(res);
+                    result.data.forEach(ele => {
+                        ele.imgUrl = `http://img.xmvogue.com/thumb/${ele.item_no}.jpg?x-oss-process=style/80`
+                    })
                     this.tableData = result.data;
                     this.total = Number(result.total);
                 }
             });
+        },
+        /**
+         * 查看图片
+         */
+        CheckImage(no) {
+            window.open(`http://img.xmvogue.com/thumb/${no}.jpg?x-oss-process=style/800`)
         },
         /***
          * 货号输入
@@ -324,6 +441,9 @@ export default {
             this.formData.no = row.item_no;
             this.formData.discount = Number(row.discount);
             this.formData.rate = Number(row.rate);
+            this.formData.item_en= row.item_en;
+            this.formData.item_name= row.item_name;
+            this.formData.base_price= row.base_price;
             this.activeId = row.d_id;
         },
         /**
@@ -391,16 +511,20 @@ export default {
         /**
          * 删除
          */
-        delDis(data) {
+        delDis() {
             this.$resetAjax({
                 type: "POST",
                 url: "/Admin/Zhekou/del",
                 data: {
-                    d_id: data.d_id
+                    d_id: this.idStr,  // 商品的d_id
                 },
                 success: res => {
                     let result = JSON.parse(res);
                     if (result.errorcode == "0") {
+                        this.$Message.success({
+                            content: "删除成功.",
+                            duration: 3
+                        });
                         this.loadData();
                     }
                 }

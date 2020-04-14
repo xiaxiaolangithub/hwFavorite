@@ -83,7 +83,11 @@
                                     </h3>
                                     <h3 class="prod_name" :title="item.item_name">{{item.item_name}}</h3>
                                     <div class="prod_price">
-                                        <p class="unit">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
+                                        <p class="unit">
+                                            {{i18n.unit}}
+                                            <span v-show="item.discount">￥{{item.discount}}</span>
+                                            <span :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
+                                        </p>
                                         <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
                                     </div>
                                     <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)" class="change_num"></addCartPrice>

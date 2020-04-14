@@ -248,8 +248,10 @@
                                 </p>
                                 <h3 class="prod_name" @click="goGoodsDetail(item.item_no)" :title="i18n.lookDetail">{{item.item_name}}</h3>
                                 <div class="prod_price">
-                                    <p class="unit">{{i18n.unit}}
-                                        <span>￥{{item.base_price}}</span>
+                                    <p class="unit">
+                                        {{i18n.unit}}
+                                        <span v-show="item.discount">￥{{item.discount}}</span>
+                                        <span :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
                                     </p>
                                     <p class="export">{{i18n.export}}
                                         <span>￥{{item.sale_price }}</span>

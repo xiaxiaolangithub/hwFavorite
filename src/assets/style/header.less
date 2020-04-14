@@ -554,16 +554,26 @@
                 cursor: pointer;
                 height: 100%;
                 line-height: 50px;
+                display: flex;
+                align-items: center;
                 a{
                     color:#f5f5f5;
                     font-size: 18px;
-                    transition: all 0.5s linear;
+                    transition: all 0.3s linear;
+                    margin-left: 5px;
+                    &:hover{
+                        color:#efe136;
+
+                    }
                 }
                 &:hover,&.selected{
                     a{
-                        border-bottom: 1px solid #fff;
-                        color:#efe136;
                     }
+                }
+            }
+            .discount_list{
+                li{
+                    margin-right: 0;
                 }
             }
         }

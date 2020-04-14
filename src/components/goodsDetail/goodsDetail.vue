@@ -94,8 +94,13 @@
                         </li>
                         <li>
                             <span class="dt">{{i18n.trade}}：</span>
-                            <span class="wholesale">￥{{ base_price}}</span>
+                            <span class="wholesale" :class="discount ? 'baseLine' : ''">￥{{ base_price}}</span>
                         </li>
+                        <li v-show="discount">
+                            <span class="dt">{{i18n.discount}}：</span>
+                            <span class="wholesale">￥{{ discount}}</span>
+                        </li>
+                        
                         <li>
                             <span class="dt"> {{i18n.selling}}：</span>
                             <span>￥{{ sale_price}}</span>
@@ -209,7 +214,10 @@
                                                 </span>
                                             </p>
                                             <div class="rel_price">
-                                                <p>{{i18n.trade}}：<span class="price_num">￥{{item.base_price}}</span>
+                                                <p>
+                                                    {{i18n.trade}}：
+                                                    <span class="price_num" v-show="item.discount">￥{{item.discount}}</span>
+                                                    <span class="price_num" :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
                                                 </p>
                                                 <p class="sale">{{i18n.selling}}：<span class="price_num">￥{{item.sale_price}}</span>
                                                 </p>
@@ -455,6 +463,8 @@ export default {
             isVideoDetail: false,
             // 详情视频地址
             detailVideoUrl: '',
+            // 在售商品折扣价
+            discount: '',
         }
     },
 
@@ -712,13 +722,14 @@ export default {
             this.item_name = info.item_name; // 商品名称
             this.likeid = info.likeid;  // 商品同款所属ID
             this.barcode = `http://order.xmvogue.com/word/public/index.php?s=home/Cart/barcode_create&sn=${info.item_no}`;
-            this.item_no = info.item_no; // 商品id
-            this.sale_price = info.sale_price; // 售价
-            this.base_price = info.base_price; // 进货价
-            this.material = info.material; // 材质
-            this.hs_code = info.hs_code; // 海关编码
-            this.weight = info.weight; // 重量
-            this.lwh = info.lwh; //尺寸：
+            this.item_no = info.item_no;            // 商品id
+            this.sale_price = info.sale_price;      // 售价
+            this.base_price = info.base_price;      // 进货价
+            this.material = info.material;          // 材质
+            this.hs_code = info.hs_code;            // 海关编码
+            this.weight = info.weight;              // 重量
+            this.lwh = info.lwh;                    // 尺寸：
+            this.discount = info.discount;          // 折扣
             this.advance = '0'
             info.credential_new.forEach(ele => {
                 let form = ele.form;
