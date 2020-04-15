@@ -213,13 +213,15 @@
                                                     <Icon type="md-copy" size="20" class="copy_icon" :title="i18n.copyContent" v-clipboard:copy="item.item_no" v-clipboard:success="onCopy" v-clipboard:error="onError" />
                                                 </span>
                                             </p>
-                                            <div class="rel_price">
+                                            <div class="rel_price" :class="langClass">
                                                 <p>
-                                                    {{i18n.trade}}：
+                                                    <span class="sale_title">{{i18n.trade}}：</span>
                                                     <span class="price_num" v-show="item.discount">￥{{item.discount}}</span>
                                                     <span class="price_num" :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
                                                 </p>
-                                                <p class="sale">{{i18n.selling}}：<span class="price_num">￥{{item.sale_price}}</span>
+                                                <p class="sale">
+                                                    <span class="sale_title">{{i18n.selling}}：</span>
+                                                    <span class="price_num">￥{{item.sale_price}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -465,6 +467,8 @@ export default {
             detailVideoUrl: '',
             // 在售商品折扣价
             discount: '',
+            // 英文下的样式
+            langClass: '',
         }
     },
 
@@ -492,6 +496,7 @@ export default {
         this.$refs.video["disablePictureInPicture"] = true;
         this.$refs.video2["disablePictureInPicture"] = true;
         window.addEventListener("scroll", this.btn_pos);
+        this.langClass = localStorage.langSelect === '1' ? 'enClass' : '';
     },
     methods: {
         /**

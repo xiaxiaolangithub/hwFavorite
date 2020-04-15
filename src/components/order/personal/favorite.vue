@@ -34,9 +34,16 @@
                             </span>
                         </p>
                         <p class="name" :title="i18n.lookDetail" @click="goGoodsDetail(item.item_no)">{{item.item_name}}</p>
-                        <div class="price">
-                            <p class="base">{{i18n.unit}}<span>￥{{item.base_price}}</span></p>
-                            <p class="base">{{i18n.export}}<span>￥{{item.sale_price}}</span></p>
+                        <div class="price" :class="langClass">
+                            <p class="base">
+                                <span class="unit_title">{{i18n.unit}}</span>
+                                <span v-show="item.discount">￥{{item.discount}}</span>
+                                <span :class="item.discount ? 'baseClass': ''">￥{{item.base_price}}</span>
+                            </p>
+                            <p>
+                                <span class="unit_title">{{i18n.export}}</span>
+                                <span>￥{{item.sale_price}}</span>
+                            </p>
                         </div>
                         <div class="handle">
                             <p class="del" @click="delColldct(item)">{{i18n.delete}}</p>
@@ -112,9 +119,13 @@ export default {
             favoriteData: {},
             // 加购的规格不是倍数
             mastSpec:this.$t('goodsDetailPage.mastSpec'),
+             // 英文下的样式
+            langClass: '',
         }
     },
-
+    mounted() {
+        this.langClass = localStorage.langSelect === '1' ? 'enClass' : '';
+    },
     created() {
         // 获取收藏数据
         this.getCollectData();
@@ -209,8 +220,6 @@ export default {
                 type: 'POST',
                 url: '/Home/Collect/index',
                 data: {
-                    uid: localStorage.uid,
-                    hdid: localStorage.hdid,
                     lang: localStorage.langSelect
                 },
                 success: (res) => {
@@ -334,8 +343,6 @@ export default {
                 data: {
                     sn: item.item_no,
                     num: item.carNum,
-                    uid: localStorage.uid,
-                    hdid: localStorage.hdid,
                     max_buy: 40, //最大数量加购物
                 },
                 success: (res) => {

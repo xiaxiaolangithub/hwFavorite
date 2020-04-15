@@ -335,13 +335,30 @@
                                     color:#D92524;
                                     font-weight: 600;
                                 }
+                                .unit_title{
+                                    color: #000 !important;
+                                    font-weight: normal !important;
+                                }
                             }
                             .unit{
-                                margin-right: 3px;
+                                margin-right: 20px;
                                 .baseLine{
                                     color:#a6a6a6;
                                     text-decoration: line-through;
                                     font-weight: normal;
+                                }
+                            }
+                        }
+                        .enClass{
+                            .unit_title{
+                                display: block;
+                                color: #000 !important;
+                                font-weight: normal !important;
+                            }
+                            span{
+                                display:  inline-block;
+                                &.baseLine{
+                                    display: inline-block;
                                 }
                             }
                         }
@@ -512,9 +529,13 @@
                             text-align: center;
                         }
                         .prod_price{
-                            width:240px;
+                            width:260px;
                             .unit,.export{
                                 font-size: 15px;
+                                .unit_title{
+                                    color:#000;
+                                    font-weight: normal;
+                                }
                             }
                             .unit{
                                 margin-right: 20px;

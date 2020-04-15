@@ -145,7 +145,7 @@ module.exports = {
             },
         ],
         helloContent: 'Hello!',
-        discountName: 'Discount Section'
+        discountName: 'Special Offers'
     },
     // 登录页面
     loginPage: {

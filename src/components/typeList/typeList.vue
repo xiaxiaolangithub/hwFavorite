@@ -82,13 +82,16 @@
                                         </span>
                                     </h3>
                                     <h3 class="prod_name" :title="item.item_name">{{item.item_name}}</h3>
-                                    <div class="prod_price">
+                                    <div class="prod_price" :class="langClass">
                                         <p class="unit">
-                                            {{i18n.unit}}
+                                            <span class="unit_title">{{i18n.unit}}</span>
                                             <span v-show="item.discount">￥{{item.discount}}</span>
                                             <span :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
                                         </p>
-                                        <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
+                                        <p class="export">
+                                            <span class="unit_title">{{i18n.export}}</span>
+                                            <span>￥{{item.ling }}</span>
+                                        </p>
                                     </div>
                                     <addCartPrice :multipleNum="item.spec" :InitPrice="item.spec" @onChange="shopChange($event,item)" class="change_num"></addCartPrice>
                                     <div class="prod_handle">
@@ -264,6 +267,8 @@ export default {
             copyError: this.$t('typeListPage.copyError'),
             // 加购的规格不是倍数
             mastSpec:this.$t('typeListPage.mastSpec'),
+            // 英文下的样式
+            langClass: '',
 
         }
     },
@@ -319,6 +324,9 @@ export default {
                 this.loading = false;
             }
         }
+    },
+    mounted() {
+        this.langClass = (localStorage.langSelect === '1' && this.iconIndex === 0) ? 'enClass' : '';
     },
     created() {
         this.urlParams = getUrlParams(); 
@@ -713,9 +721,13 @@ export default {
             if(index === 0) {
                 // 网格形式
                 this.ulClass = 'type_list';
+                if(localStorage.langSelect === '1') {
+                    this.langClass = 'enClass';
+                }
             } else {
                 // 列表形式
                 this.ulClass = 'content_List';
+                this.langClass = '';
             }
         },
         /**
