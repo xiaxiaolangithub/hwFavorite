@@ -22,7 +22,8 @@
                 </div>
                 <!-- 视频加载失败且不是预售商品都不能显示商品视频 object-fit:fill-->
                 <div class="video_left" v-show="!isVideo && advance !=='1'" style="position:relative;/*需要用padding来维持16:9比例,也就是9除以16*/height: 0;">
-                    <video :src="videoUrl" preload="auto" :poster="imgSrc" ref="video" controls="controls" controlslist="nodownload"  style="position: absolute;top:0;left: 0;width: 100%;height: 100%;outline: none;"></video>
+                    <!-- position: absolute;top:0;left: 0; -->
+                    <video :src="videoUrl" preload="auto" :poster="imgSrc" ref="video" controls="controls" controlslist="nodownload"  style="width: 800px;height: 100%;outline: none;"></video>
                 </div>
                 <!-- <div v-show="!isVideo && advance !=='1'" class="video_left">
                     <video-player  class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"></video-player>
