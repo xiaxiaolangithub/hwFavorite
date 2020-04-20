@@ -537,6 +537,9 @@ export default {
          * 获取商品类别
          */
         getAllCategories() {
+            if(this.$root.goodsType.length !== 0) {
+                return false;
+            }
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Category/categories_tree1',
@@ -726,15 +729,6 @@ export default {
             this.$root.keywork = '';
             $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
             this.$router.push({path: '/replenishment', query: {title: '按销售补货'}})
-        },
-        /**
-         * 跳转到活动商品页面
-         */
-        goLivePage(item) {
-            this.$root.keywork = '';
-            let title = item.title;
-            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
-            this.$router.push({path: '/livePage',query:{title: `${title}`}})
         },
         
     }

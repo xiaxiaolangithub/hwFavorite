@@ -50,7 +50,7 @@ export default {
             late: this.$t('infoPage.late'),
             loginTips: this.$t('infoPage.loginTips'),
             langSelect: '',
-            keepAliveIncludes: ['enter',]
+            keepAliveIncludes: ['enter', 'confirmed']
         }
     },
 
@@ -73,14 +73,8 @@ export default {
         this.getHello();
         // 得到用户账户余额
         this.getUserMat();
-        // 得到用户收藏情况
-        // this.getUserCollect();
         // 得到用户数据
         this.getUserinfo();
-        // 得到积分
-        this.getIntegralData();
-        // 得到预售订单列表
-        this.getReverList();
     },
     
     methods: {
@@ -142,6 +136,9 @@ export default {
          * 得到用户账户余额
          */
         getUserMat() {
+            if(this.$root.account.length !== 0) {
+                return false;
+            }
             this.$resetAjax({
                 type: 'POST',
                 url: '/Home/Index/get_amt',
@@ -153,39 +150,6 @@ export default {
                     this.$root.account = res;
                 }
             })
-        },
-        /**
-         * 得到积分
-         */
-        getIntegralData() {
-            /* this.$resetAjax({
-                type: 'POST',
-                url: `/Home/User/integralindex`,
-                data: {
-                    uid: localStorage.uid
-                },
-                success: (res) => {
-                    let result = JSON.parse(res);
-                    localStorage.integral = result;
-                }
-            }) */
-        },
-        /**
-         * 得到用户收藏情况
-         */
-        getUserCollect() {
-             this.$resetAjax({
-                type: 'POST',
-                url: '/Home/Collect/index',
-                data: {
-                    uid: localStorage.uid,
-                    hdid: localStorage.hdid,
-                    lang: localStorage.langSelect
-                },
-                success: (res) => {
-                    localStorage.collectLen = JSON.parse(res).list.length;
-                }
-             })
         },
         /**
          * 得到用户数据
@@ -207,41 +171,7 @@ export default {
          */
         getGoodsType() {
             this.isGetGoodsType = true;
-            /* this.$resetAjax({
-                type: 'POST',
-                url: '/Home/Category/categories_tree1',
-                data: {
-                    type: localStorage.langSelect,  // 中英文
-                },
-                success: (res) => {
-                    let result = JSON.parse(res)
-                    result.forEach(ele => {
-                        ele.isSelected = false; // 添加一个属性，让商品每一个大分类为false，方便后续鼠标经过大分类里的小分类大分类颜色为红色
-                    });
-                    this.$root.goodsType = result;   // 得到商品大分类
-                }
-            }) */
         },
-        /**
-         * 得到预售订单列表
-         */
-        getReverList() {
-            /* this.$resetAjax({
-                type: 'POST',
-                url: '/home/presell/get_order',
-                data: {
-                    page: 1
-                },
-                success: (res) =>{
-                    let result = JSON.parse(res).data.data;
-                    if(result.data.length) {
-                        let arr = result.data.map(ele => Number(ele.order_qty));
-                        this.$root.reverLen = getNumBox(arr);
-                        this.$root.reverList = result.data;
-                    }
-                }
-            }) */
-        }
     }
 }
 </script>

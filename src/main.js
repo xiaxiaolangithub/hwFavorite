@@ -133,33 +133,6 @@ let data = {
     isgoLogin: false,
     // 搜索关键词
     keywork:'',
-    // 搜索记录数据
-    keywordList: [ 
-        {
-            content: '口罩'
-        },
-        {
-            content: '香水'
-        },
-        {
-            content: '耳机'
-        },
-        {
-            content: '毛巾'
-        },
-        {
-            content: '面膜'
-        },
-        {
-            content: '数据线'
-        },
-        {
-            content: '化妆包'
-        },
-        {
-            content: '拖鞋'
-        },
-    ],
     // 商品大分类数据  比如：家居用品
     goodsType: [],
     // 商品小分类数据  比如：家居用品里面的杯类
@@ -178,8 +151,6 @@ let data = {
     },
     // 是否显示默认搜索关键词
     isKeyword: true,
-     // 权限列表
-    qxlist: [],
     // 是否显示全部商品列表
     isAllGoods: false,
     tip: {
@@ -189,8 +160,6 @@ let data = {
     account: '',
     // ip系列商品
     ipList: [],
-    // 预售订单
-    reverList: [],
 };
 
 router.beforeEach((to, from, next) => {

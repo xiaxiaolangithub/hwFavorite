@@ -1035,6 +1035,7 @@ module.exports = {
         orderDelSucc: 'You have deleted the order!',
         orderDelErr: 'Failed to delete order!',
         clickOrder: 'Click to place order.',
+        orderSuccTips: 'Pre-Ordered',
     },
     // 订单详情页面
     orderDetailPage: {

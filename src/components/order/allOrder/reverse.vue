@@ -33,10 +33,6 @@ export default {
             currentPage: 1,
             // 预定商品成功提示
             orderSuccTips:this.$t('advancePage.orderSuccTips'),
-            // 预定商品失败提示
-            orderErrorTips: this.$t('advancePage.orderErrorTips'),
-            // 预定商品余额不足，预定失败提示
-            balanceLow: this.$t('advancePage.balanceLow'),
             // 删除预售商品成功提示
             orderDelSucc: this.$t('advancePage.orderDelSucc'),
             // 删除预售商品失败提示

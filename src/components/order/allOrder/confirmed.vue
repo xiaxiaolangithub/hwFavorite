@@ -42,6 +42,7 @@
 import NProgress from 'nprogress'   // 引入进度条
 import 'nprogress/nprogress.css'    // 引入进度条
 export default {
+    name: 'confirmed',
     data() {
         return {
             // 订单状态
@@ -272,9 +273,9 @@ export default {
          */
         lookOrderDetail(item,num) {
             // 新开页面跳转到商品详情页面
-            // this.$router.push({path: '/order/orderDetail',query: {sn: item.NUM, type: this.modelStatus }})
-            let routeData = this.$router.resolve({ name: 'orderDetail', query: {sn: item.NUM, type: this.modelStatus }});
-            window.open(routeData.href, '_blank');
+            this.$router.push({path: '/order/orderDetail',query: {sn: item.NUM, type: this.modelStatus }})
+            /* let routeData = this.$router.resolve({ name: 'orderDetail', query: {sn: item.NUM, type: this.modelStatus }});
+            window.open(routeData.href, '_blank'); */
         },
         /**
          * 同步订单

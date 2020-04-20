@@ -50,9 +50,7 @@ export default {
     watch: {
         $route(val) {
             if(val) {
-                console.log(val)
                 this.isSureLI()
-
             }
         }
     },
@@ -65,9 +63,6 @@ export default {
     created() {
         this.isSureLI();
     },
-
-   
-
     methods: {
         /**
          * 根据网址传来的参数来确定选中哪个nav里内容
@@ -137,9 +132,6 @@ export default {
                 case '1':
                     this.$router.push({path: '/order/confirmed'});  // 在售商品订单
                     break;
-                case '2':
-                    // this.$router.push({path: '/order/confirmed'});  // 已确定订单
-                    break;
                 case '3':
                     this.$router.push({path: '/order/salesFlow'}); // 销售流水
                     break;
@@ -152,17 +144,8 @@ export default {
                 case '6':
                     this.$router.push({path: '/order/personal'});
                     break;
-                case '7':
-                    // this.$router.push({path: '/order/personal'}); 
-                    break;
                 case '8':
                     this.$router.push({path: '/order/favorite'});
-                    break;
-                case '9':
-                    this.$router.push({path: '/order/coupon'});  // 代金券
-                    break;
-                case '10':
-                    this.$router.push({path: '/order/address'});  // 地址管理
                     break;
                 case '11':
                     this.$router.push({path: '/order/applyServices'});  // 申请售后
