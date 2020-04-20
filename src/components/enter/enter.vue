@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <!-- 锚点 --> 
-                <Anchor show-ink class="anchor_contanier">
+                <Anchor show-ink class="anchor_contanier" v-if="isCreateAnchor">
                     <AnchorLink href="#prevention" :title="i18n.prevention" v-if="epidemicData.length!==0"/>
                     <AnchorLink href="#latest" :title="i18n.latestlink"></AnchorLink>
                     <AnchorLink href="#host" :title="i18n.hostlink" />
@@ -400,6 +400,7 @@ import NProgress from 'nprogress'   // 引入进度条
 import 'nprogress/nprogress.css'    // 引入进度条
 import downTime from '@/components/cart/downTime'  // 倒计时
 export default {
+    name: 'enter',
     components: {
         CartPrice,
         addCartPrice,
@@ -409,6 +410,7 @@ export default {
 
     data() {
         return {
+            isCreateAnchor: false,
             hostAnima: '',
             // 轮播配置
             swiperOption: {
@@ -1170,6 +1172,17 @@ export default {
         goNewsPage(item) {
             this.$router.push({path: 'news', query: {id: item.id}})
         }
+    },
+    // 进入该页面enter页面
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.isCreateAnchor = true;
+        })
+    },
+    // 离开该页面enter页面
+    beforeRouteLeave (to, from, next) {
+        this.isCreateAnchor = false;
+        next();
     },
 }
 

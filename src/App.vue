@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-		<keep-alive>
-			<router-view v-if="$route.meta.keepAlive" include="typeList" v-wechat-title='$route.meta.title'>
+		<!-- <keep-alive> -->
+			<!-- <router-view v-if="$route.meta.keepAlive" include="typeList" v-wechat-title='$route.meta.title'> -->
 			<!-- 这里是会被缓存的视图组件 -->
-			</router-view>
-        </keep-alive>
+			<!-- </router-view> -->
+        <!-- </keep-alive> -->
         <!--  这里是不会被缓存的视图组件 -->
-		<router-view v-if="!$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view>
+		<router-view v-wechat-title='$route.meta.title'></router-view>
   </div>
 </template>
 

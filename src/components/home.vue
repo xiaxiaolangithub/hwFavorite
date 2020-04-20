@@ -3,10 +3,10 @@
         <!-- 头部 -->
         <Header></Header>
         <!-- 中间内容 -->
-        <!--  :class="isShowClass?'':'active'" -->
         <div id="main-content">
-            <!--  v-if="isGetUserData"  -->
-            <router-view v-if="isGetUserData"/>
+            <keep-alive :include="keepAliveIncludes">
+                <router-view v-if="isGetUserData"/>
+            </keep-alive>
         </div>
         <fixed></fixed>
         <!-- 底部 -->
@@ -49,7 +49,8 @@ export default {
             night: this.$t('infoPage.night'),
             late: this.$t('infoPage.late'),
             loginTips: this.$t('infoPage.loginTips'),
-            langSelect: ''
+            langSelect: '',
+            keepAliveIncludes: ['enter',]
         }
     },
 
