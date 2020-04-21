@@ -99,7 +99,7 @@
                                 <div class="prod_price">
                                     <p class="unit">{{i18n.unit}}
                                         <span v-show="item.discount">￥{{item.discount}}</span>
-                                        <span :class="typeValue === 'D' ? 'baseLine' : ''">￥{{item.base_price}}</span>
+                                        <span :class="item.discount ? 'baseLine' : ''">￥{{item.base_price}}</span>
                                     </p>
                                     <p class="export">{{i18n.export}}<span>￥{{item.ling }}</span></p>
                                 </div>

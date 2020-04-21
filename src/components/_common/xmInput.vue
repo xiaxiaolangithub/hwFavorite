@@ -1,6 +1,6 @@
 <template>
     <FormItem @click.native="focusInput" :prop="validateKey">
-        <i :class="['iconfont', icon,'login_icon', {mail_icon: selected}]"><span>{{label}}</span></i>
+        <i :class="['iconfont', icon,'login_icon', {mail_icon: selected}]" style="font-size:22px;"><span>{{label}}</span></i>
         <!-- :class="{mail_shadow: selected}"   -->
         <Input ref="input" :value="value" :type="type" @on-change="changeHandler" @on-blur="blurInput" @on-focus="isFocus=true;"/>
     </FormItem>

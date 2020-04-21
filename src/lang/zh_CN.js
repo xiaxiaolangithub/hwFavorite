@@ -420,7 +420,7 @@ module.exports = {
         trade: '批发价',
         selling: '销售价',
         collection: '收藏',
-        quantity: '选择数量',
+        quantity: '选购数量',
         addCart: '马上抢',
         addSuccTip: '添加购物车成功 ！',
         adderrTip: '很抱歉，库存不够，商品加入购物车失败 ！',

@@ -445,7 +445,7 @@ export default {
                         if(localStorage.langSelect === '0') {
                             arr.push({
                                 id: parseInt(Number(ele)),
-                                name: `${Number(ele)}折特价清仓`
+                                name: `${Number(ele)} 折特价清仓`
                             })
                         } else {
                             arr.push({
@@ -721,14 +721,6 @@ export default {
             this.isShowGoods = false; //鼠标点击商品分类时把商品分类显示左右商品分类隐藏 
             this.genrename = this.$root.keywork = '';
             this.$router.push({path: '/typeList', query: {cls_id: item.cls_id,name: item.cls_name}})
-        },
-        /**
-         * 去销售补货页面
-         */
-        goreplensh() {
-            this.$root.keywork = '';
-            $('.ivu-select-selected-value').text(this.i18n.placeholdertip)
-            this.$router.push({path: '/replenishment', query: {title: '按销售补货'}})
         },
         
     }

@@ -6,9 +6,9 @@
                 <div class="login">
                     <h3 class="sign">国际订货后台系统</h3>
                     <Form ref="loginForm" :model="loginForm" :rules="ruleValidate" :label-width="20" class="loginForm">
-                        <xmInput v-model="loginForm.mail" label="用户名" validateKey="mail" icon="icon-youxiang" />
+                        <xmInput v-model="loginForm.mail" label="用户名" validateKey="mail" icon="icon-icoyonghuming" />
                         <div class="passInput">
-                            <xmInput v-model="loginForm.password" label="密码" validateKey="password" icon="icon-mima" :type="passType"/>
+                            <xmInput v-model="loginForm.password" label="密码" validateKey="password" icon="icon-mima1" :type="passType"/>
                             <i class="iconfont icon-htmal5icon08 noCheck" @click="passType='text'" v-if="passType==='password'"></i>
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>

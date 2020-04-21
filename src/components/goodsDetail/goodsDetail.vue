@@ -120,7 +120,7 @@
                         <li class="add_shop">
                             <span class="dt">{{i18n.quantity}}：</span>
                             <!-- 引用加入购物车组件 -->
-                            <addCartPrice :multipleNum="purchase_spec" :InitPrice="purchase_spec" @onChange="shopChange($event)" />
+                            <addCartPrice :multipleNum="spec" :InitPrice="spec" @onChange="shopChange($event)" />
                             <!-- <p title="加入购物车" @click="addShop"><img src="@/assets/images/goodsDetail/addShopCar.png" alt=""></p> -->
                             <!-- <span class="cnum" :title="this.cnumTitle" @click="addShop" v-if="this.cnum !== 0">{{this.cnum}}</span> -->
                         </li>
@@ -636,8 +636,8 @@ export default {
             this.material = info.material;                  // 材质
             this.lwh = info.lwh || info.lwh_en;             // 尺寸：
             this.weight = info.weight;                      // 重量
-            this.purchase_spec = info.purchase_spec;        // 规格
-            this.spec = info.lot_spec;                      // 箱规
+            this.spec = info.purchase_spec;                 // 规格
+            this.purchase_spec = info.lot_spec;             // 箱规
             this.stock_num = -1;                            // 判断是否有添加购物车功能
             this.display_falg = true;
             this.imgSrc = info.img;                         // 商品主图
@@ -771,14 +771,14 @@ export default {
                         }
                     }
             });
-            this.credential = info.credential_new; // 证书地址
-            this.goodsCnum = Number(info.cnum); // 商品详情里的购物车数量
+            this.credential = info.credential_new;              // 证书地址
+            this.goodsCnum = Number(info.cnum);                 // 商品详情里的购物车数量
             this.like = info.like;
             this.features = info.features;
             this.usage = info.usage;
             this.notes = info.notes;
-            this.spec = Number(info.spec); // 规格
-            this.purchase_spec = Number(info.purchase_spec); // 箱规数量
+            this.spec = Number(info.spec);                      // 规格
+            this.purchase_spec = Number(info.lot_spec);         // 箱规数量
             this.carNum = Number(info.spec);
             this.stock_num = Number(info.stock_num);
             // 商品是否下线 1表示上线
@@ -1031,7 +1031,7 @@ export default {
                 url: "/home/presell/checkout",
                 data: {
                     gid: this.advanceId, // 预定商品编码
-                    qty: this.purchase_spec // 预定商品数量
+                    qty: this.spec // 预定商品数量
                 },
                 success: res => {
                     let result = JSON.parse(res);

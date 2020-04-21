@@ -20,9 +20,9 @@
                 <div class="login">
                     <h3 class="sign">{{i18n.loginBtnText}}</h3>
                     <Form ref="loginForm" :model="loginForm" :rules="ruleValidate" :label-width="20" class="loginForm">
-                        <xmInput v-model="loginForm.mail" :label="i18n.mail" validateKey="mail" icon="icon-youxiang" />
+                        <xmInput v-model="loginForm.mail" :label="i18n.mail" validateKey="mail" icon="icon-icoyonghuming" />
                         <div class="passInput">
-                            <xmInput v-model="loginForm.password" :label="i18n.password" validateKey="password" icon="icon-mima" :type="passType"/>
+                            <xmInput v-model="loginForm.password" :label="i18n.password" validateKey="password" icon="icon-mima1" :type="passType"/>
                             <i class="iconfont icon-htmal5icon08 noCheck" @click="passType='text'" v-if="passType==='password'"></i>
                             <i class="iconfont icon-chakan check" @click="passType='password'" v-else></i>
                         </div>
