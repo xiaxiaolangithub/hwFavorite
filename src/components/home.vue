@@ -11,9 +11,6 @@
         <fixed></fixed>
         <!-- 底部 -->
         <Footer></Footer>
-        <!-- 提示 -->
-        <tip v-if="$root.tip.isShow" :tipContent="$root.tip.content"></tip>
-       
     </div>
 </template>
 
@@ -22,16 +19,13 @@ import { mapActions } from 'vuex';
 import Footer from './footer.vue'
 import Header from './header.vue'
 import fixed from './fixed.vue'
-import tip from './tip.vue'
 import {setCookie} from  '@/assets/js/tool.js' 
 import {getCookie} from  '@/assets/js/tool.js'
 import {getNumBox} from  '@/assets/js/tool.js'
-
 export default {
     components: {
         Header,
         Footer,
-        tip,
         fixed
        
     },
@@ -40,15 +34,7 @@ export default {
             isShowClass: true,
             isGetUserinfo: true, // 修改为true
             isGetGoodsType: false,
-            dawn: this.$t('infoPage.dawn'),
-            morning: this.$t('infoPage.morning'),
-            fore: this.$t('infoPage.fore'),
-            noon: this.$t('infoPage.noon'),
-            after: this.$t('infoPage.after'),
-            even: this.$t('infoPage.even'),
-            night: this.$t('infoPage.night'),
-            late: this.$t('infoPage.late'),
-            loginTips: this.$t('infoPage.loginTips'),
+            loginTips: '登录过期，2秒后自动为您跳转到登录页面',
             langSelect: '',
             keepAliveIncludes: ['enter', 'confirmed']
         }
@@ -64,6 +50,7 @@ export default {
         },
     },
     created() {
+        localStorage.langSelect = 0;
         this.langSelect = localStorage.langSelect;
         // 判断用户是否已登录 
         this.isLogin();
@@ -71,15 +58,15 @@ export default {
         this.getGoodsType();
          // 得到时间问候语
         this.getHello();
-        // 得到用户账户余额
-        this.getUserMat();
         // 得到用户数据
         this.getUserinfo();
+        // 得到商品总数量
+        this.getFavoriteNum({vm:this})
     },
     
     methods: {
         ...mapActions([
-            'getDataCard'
+            'getFavoriteNum'
         ]),
         open(data) {
             this.isShowClass = data;
@@ -88,24 +75,24 @@ export default {
          * 判断用户是否已登录
          */
         isLogin() {
-            if(localStorage.uid === '') {
-                // 未登录
-                this.$Message.error({
-                    content: this.loginTips,
-                    duration: 3
-                });
-                this.$router.push({path: '/login'})
-                return false;
-            } 
-            if(localStorage.uid === undefined) {
-                // 未登录
-                this.$Message.error({
-                    content: this.loginTips,
-                    duration: 3
-                });
-                this.$router.push({path: '/login'})
-                return false;
-            }
+            // if(localStorage.whuname === '') {
+            //     // 未登录
+            //     this.$Message.error({
+            //         content: '登录过期，2秒后自动为您跳转到登录页面',
+            //         duration: 3
+            //     });
+            //     this.$router.push({path: '/login'})
+            //     return false;
+            // } 
+            // if(localStorage.whuname === undefined) {
+            //     // 未登录
+            //     this.$Message.error({
+            //         content: '登录过期，2秒后自动为您跳转到登录页面',
+            //         duration: 3
+            //     });
+            //     this.$router.push({path: '/login'})
+            //     return false;
+            // }
 
         },
         /**
@@ -115,56 +102,28 @@ export default {
             var now = new Date();
             var hour = now.getHours(); 
             if(hour < 6){
-                localStorage.helloDate = this.dawn;
+                localStorage.helloDate = '凌晨好 ! ';
             }  else if (hour < 9){
-                localStorage.helloDate = this.morning;
+                localStorage.helloDate = '早上好 ! ';
             }  else if (hour < 12){
-                localStorage.helloDate = this.fore;
+                localStorage.helloDate = '上午好 ! ';
             }  else if (hour < 14){
-                localStorage.helloDate = this.noon;
+                localStorage.helloDate = '中午好 ! ';
             }  else if (hour < 17){
-                localStorage.helloDate = this.after;
+                localStorage.helloDate = '下午好 ! ';
             } else if (hour < 19){
-                localStorage.helloDate = this.even;
+                localStorage.helloDate = '傍晚好 ! ';
             }  else if (hour < 22){
-                localStorage.helloDate = this.night;
+                localStorage.helloDate = '晚上好 ! ';
             } else {
-                localStorage.helloDate = this.late;
+                localStorage.helloDate = '深夜好 ! ';
             } 
-        },
-        /**
-         * 得到用户账户余额
-         */
-        getUserMat() {
-            if(this.$root.account.length !== 0) {
-                return false;
-            }
-            this.$resetAjax({
-                type: 'POST',
-                url: '/Home/Index/get_amt',
-                data: {
-                    hdid: localStorage.hdid
-                },
-                success: (res) =>{
-                    localStorage.account = res;
-                    this.$root.account = res;
-                }
-            })
         },
         /**
          * 得到用户数据
          */
         getUserinfo() {
-            this.$resetAjax({
-                type: 'POST',
-                url: '/Home/index/xinxi',
-                success: (res) =>{
-                    // 成功得到用户信息，存入userData
-                    let info = JSON.parse(res)
-                    this.$root.userData = Object.assign({}, this.$root.userData, info);
-                    this.isGetUserinfo = true;
-                }
-            })
+            this.isGetUserinfo = true;
         },
         /**
          * 得到商品分类
@@ -180,6 +139,7 @@ export default {
     #main-content{
         background: #fff;
     }
+    
 </style>
 
 

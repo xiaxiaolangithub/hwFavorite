@@ -1,6 +1,44 @@
 .searchKey{
     background: #fff;
     padding-bottom: 30px;
+    .collect_handle{
+        font-size: 16px;
+        background: #ddedf0;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        cursor: pointer;
+        span{
+            display: inline-block;
+            background: @bgColor;
+            padding:5px 15px;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+            color:#fff;
+            &:hover{
+                background:#1d707f;
+            }
+        }
+    }
+    .cancel_handle{
+        font-size: 16px;
+        background: #ddedf0;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        cursor: pointer;
+        span{
+            display: inline-block;
+            background: #d3830a;
+            padding:5px 15px;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+            color:#fff;
+            &:hover{
+                background:#796060;
+            }
+        }
+    }
     .type_top{
         background:  #fff;
         padding-top:20px;
@@ -472,9 +510,10 @@
                 padding-top:40px;
                 li{
                     padding: 0 15px;
-                    width: 25%;
+                    width: 20%;
                     float: left;
                     position: relative;
+                    height: 435px;
                     // transition: all 0.5s linear;
                     margin-bottom: 12px;
                     &>div:hover{
@@ -508,7 +547,6 @@
                     }
                     .prod_top{
                         width: 100%;
-                        height: 356px;
                         cursor: pointer;
                         position: relative;
                         overflow: hidden;
@@ -647,11 +685,9 @@
                             color:#000;
                             padding-top: 0;
                             box-sizing: border-box;
-                            .unit,.export{
-                                span{
-                                    color:#D92524;
-                                    font-weight: 600;
-                                }
+                            span{
+                                color:#D92524;
+                                font-weight: 600;
                             }
                             .unit{
                                 margin-right: 6px;

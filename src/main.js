@@ -18,7 +18,6 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'  // 引用左右轮播
 import 'swiper/dist/css/swiper.css'
 import scroll from 'vue-seamless-scroll'  // 引入上下轮播
 Vue.use(scroll)
-import CartPrice from '@/components/common/cart-price';
 import locale from 'view-design/dist/locale/en-US';
 // import zhLocale from 'iview/src/locale/lang/zh-CN';//导入iview中文语言包
 // import enLocale from 'iview/src/locale/lang/en-US';//导入iview英文语言包
@@ -44,9 +43,9 @@ Vue.use(VueClipboard)  // 复制插件
 Vue.locale = () => {};
 import '@/assets/style/icon/iconfont.css'
 import {getCookie} from '@/assets/js/tool.js'
-if (!localStorage.language) {
-    localStorage.language = 'en';
-}
+
+    localStorage.language = 'zh';
+
 const i18n = new VueI18n({
     locale: localStorage.language,    // 语言标识
     messages: {
@@ -54,7 +53,6 @@ const i18n = new VueI18n({
         'en': $.extend(true, {}, enLocale, require('./lang/EN.js'))
     }
 })
-// import axios from 'axios'
 Vue.prototype._i18n = i18n;
 import Router from 'vue-router'                                      //  解决报这个错Uncaught (in promise) NavigationDuplicated {_name: "NavigationDuplicated", name: "NavigationDuplicat
 const routerPush = Router.prototype.push
@@ -67,14 +65,13 @@ Router.prototype.push = function push(location) {
 }) */
 Vue.use(VueAwesomeSwiper, {})
 Vue.component('Echart', ECharts);
-Vue.component('CartPrice', CartPrice);
 Vue.config.productionTip = false
 
 // ajax封装
 let resetAjax = (opt) => {
     let defaultOpt = {
         // root: process.env.NODE_ENV === 'development' ? '/word/public/index.php?s=' : '',
-        root: '/word/public/index.php?s=',
+        root: '/choose/chooseGoods/public/index.php?s=',
         xhrFields: {withCredentials: true}, // 使用withCredentials发送跨域请求凭据
         crossDomain: true,  // 跨域
     }
@@ -85,25 +82,21 @@ let resetAjax = (opt) => {
             return false;
         }
         try {
-            if (JSON.parse(res).errorcode === 3) {
+            if (JSON.parse(res).errorcode === 203) {
                 // 1、处理登录过期
                 // 2、跳转到登录页面
-                if(location.href.includes('backStage')) {
-                    location.href = `${location.origin}/main.html#/backSupport`  // 线上放开
-                } else{
-                    location.href = `${location.origin}/main.html#/login`  // 线上放开
-                }
+                location.href = `http://order.xmvogue.com/choose/main.html#/login` 
                 return false;
-            }
+            } 
         } catch (error) {
-            console.log(error)
+            
         }
         
         opt.success(res);
     }
-   /*  defaultOpt.error =(res) => {
-        console.log(this)
-    } */
+    defaultOpt.error =(res) => {
+        // alert(JSON.parse(res).msg)
+    }
     $.ajax(defaultOpt);
 }
 Vue.prototype.$resetAjax = resetAjax;
@@ -125,8 +118,6 @@ import VueWechatTitle from 'vue-wechat-title'    // 页面添加标题
 Vue.use(VueWechatTitle)
 
 let data = {
-    // 推荐商品数据
-    commendList: [],
     // 用户信息数据
     userData: {},
     // 是否显示登录
@@ -137,8 +128,6 @@ let data = {
     goodsType: [],
     // 商品小分类数据  比如：家居用品里面的杯类
     goodsSmallType: [],
-    // 商品细分类数据   比如：家居用品里面杯类里的塑料杯
-    subdivide:[],
     // header.vue里购物车数据
     headerCartData: {
         copyTableData: [],
@@ -157,9 +146,6 @@ let data = {
         isShow: false,
         content: ''
     },
-    account: '',
-    // ip系列商品
-    ipList: [],
 };
 
 router.beforeEach((to, from, next) => {

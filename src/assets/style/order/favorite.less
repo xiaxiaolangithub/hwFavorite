@@ -42,17 +42,23 @@
     }
     .clear{
         display: flex;
-        justify-content: flex-end;
-        padding-bottom: 25px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        .clear_left,.clear_right{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .clearLover{
-            background: @bgColor;
-            color:#fff;
+            color: #fff;
             margin-right: 15px;
             transition: all 0.5s linear;
-            padding: 2px 10px;
-            font-size: 14px;
+            padding: 5px 15px;
+            font-size: 15px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 15px;
+            background: @bgColor;
             &:hover{
                 background: #1b6b79;
             }
@@ -73,10 +79,10 @@
         margin: 0 -15px;
         li{
             float: left;
-            width:33%;
+            width:20%;
             padding:0 10px;
             .item_li{
-                margin: 0px 0px 28px;
+                margin: 0px 0px 20px;
                 border: 1px solid #F2F2F2;
                 transition: all .2s ease 0s;
                 &:hover{
@@ -238,39 +244,37 @@
                 .handle{
                     display: flex;
                     justify-content: center;
-                    padding-bottom: 5px;
                     box-sizing: border-box;
                     .del{
                         border: 1px solid #fff;
-                        background: @bgColor;
+                        background: #218da0;
                         color: #ffffff;
                         cursor: pointer;
-                        padding: 0 15px;
+                        padding: 4px 15px;
                         display: flex;
-                        justify-content: center;
                         align-items: center;
                         transition: all 0.3s linear;
                         margin-right: 15px;
+                        font-size: 15px;
+                        border-radius: 5px;
                         &:hover{
-                            background: #757575;
-                            color:#fff;
+                            background: #1d7787;
                         }
                     }
                     .check{
                         border: 1px solid @bgColor;
-                        background: #fff;
-                        color:@bgColor;
+                        background: #218da0;
+                        color:#fff;
                         cursor: pointer;
-                        padding: 0 15px;
+                        padding: 4px 15px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         transition: all 0.2s linear;
-                        margin-right: 15px;
+                        font-size: 15px;
+                        border-radius: 5px;
                         &:hover{
-                            background: @bgColor;;
-                            color:#fff;
-                            border: 1px solid #fff;
+                            background: #1d7787;
                         }
                     }
                 }
@@ -287,6 +291,24 @@
         display: block;
         color:#333;
         font-size: 14px;
+    }
+    .pageContanier{
+        padding: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1A1617;
+        font-size: 16px;
+    }
+    .ivu-page-item-active {
+        background-color: @bgColor;
+        a{
+            color: #fff;
+        }
+    }
+    .ivu-page-item:hover{
+        border: 1px solid @bgColor;
+
     }
 }
 .clearCollect{

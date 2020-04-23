@@ -50,4 +50,7 @@ export default {
         background-image: linear-gradient( 135deg, #73d5e6 10%, yellow 50%, #e66465 100%) !important; 
         height: 3px;
     }
+    .ivu-message{
+        font-size: 16px;
+    }
 </style>

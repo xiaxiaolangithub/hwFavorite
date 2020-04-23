@@ -8,18 +8,21 @@ module.exports = {
   dev: {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // proxyTable: {
+    //     // 配置线上
+    //     '/word/public/index.php': {
+    //         target: 'http://order.xmvogue.com/',
+    //         changeOrigin: true,  //是否跨域
+    //         pathRewrite: {}
+    //     },
+    // },
     proxyTable: {
-        // '/word/public/index.php': 'http://172.21.8.128/',
-        // '/word/public/index.php?s=': 'http://order.xmvogue.com/',
         // 配置线上
-        '/word/public/index.php': {
-            target: 'http://order.xmvogue.com/',
+        '/choose': {
+            target: 'http://order.xmvogue.com',
             changeOrigin: true,  //是否跨域
-            pathRewrite: {
-            // '^/word/public/index.php?s=': '/'   //重写接口
-            }
+            pathRewrite: {}
         },
-        
     },
 
     // Various Dev Server settings 
@@ -61,7 +64,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/choose/',
 
     /**
      * Source Maps

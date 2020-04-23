@@ -1,23 +1,18 @@
 <template>
     <div class="fixedPage">
         <ul  class="fixed_part">
-            <li @click="$router.push({path: '/cart'})" :title="i18n.shopcar">
-                <Badge :count="pageNum">
-                    <Avatar shape="square" icon="ios-cart-outline" />
-                </Badge>
-            </li>
-            <li @click="$router.push({path: '/order/reverse'})" :title="i18n.OrderTips" >
-                <Badge :count="presellNum">
-                    <Avatar shape="square" icon="ios-stopwatch-outline"/>
-                </Badge>
-            </li>
-            <li v-for="(item) in fixedData" :key="item.id" @click="itemClick(item.id)">
+            <Badge :count="favoriteNum">
+                <li title="我的收藏" @mouseleave="animationType= 'animated bounce infinite'" @mouseenter="animationType= 'animated bounce'">
+                    <Icon type="ios-heart"  :class="animationType" />
+                </li>
+            </Badge>
+            <li v-for="(item) in fixedData" :key="item.id" @click="itemClick(item.id)" :title="item.title">
                 <Icon :type="item.icon"></Icon>
             </li>
         </ul>
-        <Modal v-model="isCheck" class="model_check" :title="i18n.title" draggable >
+        <Modal v-model="isCheck" class="model_check" title="商品查询" draggable >
             <p>
-                <Input v-model="searchCode" @on-enter="searchGoods" :placeholder="i18n.inputTip" />
+                <Input v-model="searchCode" @on-enter="searchGoods" placeholder="请在此输入商品名称或商品编码 ..." />
                 <span class="icon" @click="searchGoods"><Icon type="ios-search"></Icon></span>
             </p>
         </Modal>
@@ -26,6 +21,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations,mapActions } from 'vuex';
+import "@/assets/style/animate.less"; 
 export default {
     data() {
         return {
@@ -34,37 +30,32 @@ export default {
                 {
                     icon: 'ios-search',
                     id: 2,
+                    title: '全网搜索'
                 },
                 {
                     icon: 'ios-arrow-up',
                     id: 3,
+                    title: '返回顶部'
                 },
             ],
             // 是否显示查询框
             isCheck: false,
             // 编码查询字段
             searchCode: '',
-            // 输入字段为空提示
-            keyworkTip: this.$t('fixedPage.keyworkTip') ,
             totalNum: 0,
+            animationType:"animated bounce infinite",
         }
     },
     computed: {
-        // 引入fixedPage里的中英文
-        i18n() {
-            return this.$t('fixedPage') 
-        },
         ...mapState([
-            'headerCartData'
+            'favoriteNum'
         ]),
         ...mapGetters([
-            'totalPrice',
-            'cartNum',
-            'pageNum',
-            'presellNum'
+            'favoriteNum',
         ]),
     },
     created() {
+        
     },
     watch: {
         isCheck(val) {
@@ -75,15 +66,10 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'setCartDataList',
-            'setCartDataListNum',
-            'setTotalPrice',
-            'setCartDataCartTypeCate',
-            'setPageNum',
-            'setPresellNum'
+            'setFavoriteNum'
         ]),
         ...mapActions([
-            'getDataCard'
+            'getFavoriteNum'
         ]),
         itemClick(id) {
             switch(id) {
@@ -108,8 +94,6 @@ export default {
             (function jump(){
                 if(distance > 0){
                     distance-=step;
-                    // document.documentElement.scrollTop = distance;
-                    // document.body.scrollTop = distance;
                     window.scrollTo(0,distance);
                     setTimeout(jump,10)
                 }
@@ -121,14 +105,14 @@ export default {
         searchGoods() {
             if(this.searchCode === '') {
                 this.$Message.warning({
-                    content: this.keyworkTip,
+                    content: '抱歉，查询的商品名称不能为空',
                     duration: 3
                 });
                 return false;
             }
             this.isCheck = false;
             this.$root.keywork = this.searchCode;
-            this.$router.push({path: '/searchKey', query: {keyword: this.$root.keywork,select: 0}});
+            this.$router.push({path: '/searchKey', query: {keyword: this.$root.keywork,select: 'BB'}});
             this.searchCode = '';
         },
     }

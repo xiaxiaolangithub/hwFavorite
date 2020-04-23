@@ -11,19 +11,6 @@
             }
         }
     }
-    
-
-
-
-
-
-
-
-
-
-
-
-
     .back-stage{
         color:#999;
         font-size: 14px;
@@ -44,7 +31,7 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
-        .slite_left,.site_right{
+        .slite_left{
             a{
                 line-height: 40px;
                 font-size: 15px;
@@ -147,180 +134,27 @@
                 }
             }
         }
-        .site_right{
-            position: relative;
+        .slite_right{
             display: flex;
             align-items: center;
-            .account{
-                color: #515a6e;
-                margin-right: 35px;
+            p{
                 font-size: 15px;
-                span{
-                    color:#ea0707;
-                }
-            }
-            .langChoice{
-                .ivu-dropdown-rel{
-                    height: 40px;
-                    &>a{
-                        display: inline-block;
-                        height: 100%;
-                        display: flex;
-                        align-items: center;
-                        color: #333;
-                        img{
-                            height: 25px; 
-                            margin-right: 5px;
-                        }
-                    }
-                }
-                .ivu-select-dropdown{
-                    .ivu-dropdown-item{
-                        padding: 5px 20px;
-                        display: flex;
-                        align-items: center;
-                        span{
-                            display: inline-block;
-                        }
-                    }
-                }
-            }
-            .choice{
-                color:#fff;
-                margin:0 5px;
-                font-size: 14px;
-            }
-            .ivu-dropdown{
-                margin-right: 15px;
-                .ivu-dropdown-item{
-                    padding: 0;
-                }
-                span{
-                    display: inline-block;
-                    width:100%;
-                    padding: 8px 15px;
-                }
-            }
-            .shopcar_item{
-                background: @color;
-                color:#fff;
-                font-size: 14px;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                padding: 0 10px;
                 cursor: pointer;
-                .shopcaricon{
-                    width: 20px;
-                    height: 20px;
-                    display: inline-block;
-                    margin-right: 10px;
-                }
+                transition: all 0.2s linear;
                 &:hover{
-                    color:@color;
-                    background: #fff;
-                    transition: height 2s;
+                    color:#000;
                 }
             }
-            ul.shopcar_list{
-                position: absolute;
-                background: #fff;
-                z-index: 9;
-                padding:10px;
-                padding-top: 5px;
-                max-height: 300px;
-                overflow: auto;
-                top: 35px;
-                right: 0;
-                transition: height 3s;
-                z-index: 99;
-                border: 1px solid #ddd;
-                display: none;
-                li{
-                    display: flex;
-                    align-items: center;
-                    padding: 20px 0;
-                    border-bottom: 1px solid #ddd;
-                    cursor: pointer;
-                    width: 280px;
-                    box-sizing: border-box;
-                    .goods_image{
-                        width: 45px;
-                        height: 45px;
-                        display: inline-block;
-                        margin-right: 20px;
-                        background: #000;
-                        img{
-                            width: 45px;
-                            height: 45px;
-                            display: inline-block;
-                        }
-                    }
-                    .goods_title{
-                        color:#424242;
-                        margin-right: 25px;
-                        font-size: 14px;
-                        display: inline-block;
-                        width: 100px;
-                        &:hover{
-                            color:@color;
-                        }
-                    }
-                    .goods_price{
-                        margin-right: 15px;
-                    }
-                }
+            p:nth-child(1) {
+                border-right: 1px solid #ccc;
+                padding-right: 15px;
             }
-            .go_carButton{
-                border-bottom: 0;
-                background: #f5f5f5;
-                width: 296px;
-                display: flex;
-                justify-content: space-between;
-                height: 70px;
-                padding: 5px 15px;
-                align-items: center;
-                z-index: 595;
-                left: 0;
-                margin-top: 10px;
-                .car_footer{
-                    .total_num{
-                        font-size: 12px;
-                        color: #757575;
-                        span{
-                            color:@color;
-                        }
-                    }
-                    .total_amount{
-                        span{
-                            color: @color;
-                            font-size: 18px;
-                            margin-top: 2px;
-                        }
-                    }
-                }
-                .go_shopCar{
-                    background: @color;
-                    color:#fff;
-                    border: none !important;
-                    border-radius: 0 !important;
-                }
+            p:nth-child(2) {
+                padding-left: 15px;
             }
-            .noCar{
-                position: absolute;
-                right: 0;
-                top: 40px;
-                z-index: 31;
-                width: 316px;
-                height: 70px;
-                color: #424242;
-                background: #fff;
-                box-shadow: 0 2px 10px rgba(0,0,0,.15);
-                overflow: hidden;
-                transition: height .3s;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            span{
+                color:#d92524;
+                font-weight: bold;
             }
         }
     }
@@ -334,46 +168,12 @@
                 width:@bgWidth;
                 margin: 0 auto;
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
                 height: 100%;
-                .shopcar{
-                    height: 60px;
-                    min-width: 160px;
-                    max-width: 300px;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    background: #fff;
-                    border: 1px solid @bgColor;
-                    cursor: pointer;
-                    box-shadow: 0 2px 7px rgba(0,0,0,.15);
-                    color:@bgColor;
-                    padding:0 20px;
-                    transition: all .3s linear;
-                    border-radius: 60px;
-                    &:hover{
-                        box-shadow: none;
-                    }
-                    .shopcart_right{
-                        margin-left: 8px;
-                        p{
-                            font-size:16px;
-                            color:#333;
-                            span{
-                                color:#ed4014;
-                            }
-                        }
-                    }
-                    .ivu-badge-count{
-                        position: absolute;
-                        top: -9px;
-                        right: 10px;
-                    }
-                }
                 .inner_left{
                     display: flex;
                     align-items: center;
+                    margin-right: 100px;
                     a,img{
                         color: @color;
                         font-size: 35px;
@@ -382,10 +182,11 @@
                     }
                 }
                 .inner_right{
-                    width: 800px;
+                    width: 1000px;
                     font-size: 16px;
                     padding-top: 30px;
                     height: 100%;
+                    margin-right: 200px;
                     .newArrivals{
                         transition: all 0.3s linear;
                         text-decoration: underline;
@@ -449,7 +250,6 @@
                         background: #218da0;
                         color: #fff;
                         margin-left: -4px;
-                        margin-top: 1px;
                         height: 50px;
                         padding: 5px 24px;
                         display: flex;
@@ -511,6 +311,9 @@
                             }
                         }
                     }
+                }
+                .favorite_icon{
+                    cursor: pointer;
                 }
             }
         }
@@ -783,13 +586,6 @@
                     }
                 }
             }
-        }
-    }
-    .ipList{
-        li{
-            height: 30px;
-            padding: 0 15px;
-            line-height: 30px !important;
         }
     }
     .shortcut{

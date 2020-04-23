@@ -5,102 +5,42 @@
         font-weight: 400;
         line-height: 68px;
         color: #333;
+        padding-bottom: 20px;
     }
-    .top{
-        display: flex;
-        padding-top: 20px;
-        .left{
-            padding-left: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-right: 200px;
-            .changePass{
-                cursor: pointer;
-                background: #218da0;
-                color: #fff;
-                transition: all 0.3s linear;
-                text-align: center;
-                padding: 5px 12px;
-                font-size: 14px;
-                &:hover{
-                    background: #17626f;
-                }
-            }
-            .portrait{
-                width: 150px;
-                height: 150px;
-                padding: 1px solid #e0e0e0;
-                border-radius: 100%;
-                margin-right:20px;
-                img{
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-            .info{
-                h3{
-                    color:#616161;
-                    font-size: 24px;
-                    font-weight: normal;
-                }
-                p{
-                    margin: 0 0 10px;
-                    color: #b0b0b0;
-                    font-size: 16px;
-                    line-height: 28px;
-                }
-            }
-        }
-        .right{
-            padding-top:20px;
-            li{
-                color: #757575;
-                font-size: 16px;
-                padding: 4px 0;
-                span{
-                    color:@bgColor;
-                }
-            }
+    .top, .handle{
+        padding:0 0 50px 40px;
+    }
+    .item{
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0 0 0;
+        span{
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 2px solid @bgColor;
+            display: inline-block;
+            height: 35px;
+            width:100px;
+            text-align: center;
         }
     }
-    .portal_sub{
-        border-top: 1px solid #e0e0e0;
-        margin-top: 40px;
-        padding:45px 45px;
-        color: #757575;
-        overflow: hidden;
-        li{
-            float: left;
-            width: 40%;
-            display: flex;
-            align-items: center;
-            .sub_left{
-                width: 120px;
-                height: 120px;
-                margin-right: 15px;
-                img{
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-            .sub_right{
-                font-size: 18px;
-                color:#333;
-                span{
-                    color:@bgColor;
-                }
-            }
-            .sub_right_bottom{
-                font-size: 16px;
-                cursor: pointer;
-                line-height: 28px;
-                color:@bgColor;
-                transition: all 0.5s linear;
-                &:hover{
-                    color:#333;
-                }
-            }
+    .item_p{
+        margin-top: 30px;
+        margin-left: 40px;
+    }
+    .info{
+        font-size: 16px;
+    }
+    .update{
+        padding:8px 15px;
+        background: @bgColor;
+        font-size: 15px;
+        display: inline-block;
+        color:#fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s linear;
+        &:hover{
+            background: #1d7c8d;
         }
     }
 }
